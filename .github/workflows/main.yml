@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,7 +15,8 @@ jobs:
       - name: Select Xcode
         run: |
           ls /Applications | grep -i xcode || true
-          sudo xcode-select -s /Applications/Xcode_15.4.app || true
+          X=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$X" ]; then sudo xcode-select -s "$X"; fi
           xcodebuild -version
 
       - name: Install tools
