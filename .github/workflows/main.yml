@@ -56,6 +56,23 @@ jobs:
         run: |
           find .theos -name 'Redstone.dylib' -exec lipo -info {} \;
 
+      - name: Check for broken symbols (fails if tweak code is missing)
+        working-directory: Redstone
+        run: |
+          for f in $(find .theos -name 'Redstone.dylib'); do
+            echo "== $f"
+            for a in armv7 armv7s; do
+              echo "-- $a: symbols resolved only at runtime:"
+              nm -arch $a -mu "$f" | grep "dynamically looked up" || true
+            done
+          done
+          BAD=$(for f in $(find .theos -name 'Redstone.dylib'); do nm -mu "$f" | grep "dynamically looked up" | grep -E "_logos|_OBJC_CLASS|RS[A-Z]" || true; done)
+          if [ -n "$BAD" ]; then
+            echo "ERROR: tweak's own symbols are missing, it will not load on the device:"
+            echo "$BAD"
+            exit 1
+          fi
+
       - name: Upload .deb
         uses: actions/upload-artifact@v4
         with:
