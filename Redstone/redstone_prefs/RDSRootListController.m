@@ -1,4 +1,13 @@
 #include "RDSRootListController.h"
+#include <dlfcn.h>
+
+// system() is marked unavailable in newer iOS SDKs, so look it up at runtime.
+static void RDSRunCommand(const char* command) {
+	int (*systemFunction)(const char*) = (int (*)(const char*))dlsym(RTLD_DEFAULT, "system");
+	if (systemFunction) {
+		systemFunction(command);
+	}
+}
 
 @implementation RDSRootListController
 
@@ -29,7 +38,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void)killSpringBoard {
-	system("killall SpringBoard");
+	RDSRunCommand("killall SpringBoard");
 }
 #pragma GCC diagnostic pop
 
@@ -50,7 +59,7 @@
 	id properties = [specifier properties];
 	
 	NSString *path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/%@.plist", properties[@"defaults"]];
-	NSMutableDictionary* settings = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+	NSMutableDictionary* settings = [NSMutableDictionary dictionaryWithContentsOfFile:path] ?: [NSMutableDictionary dictionary];
 	
 	[settings setObject:value forKey:properties[@"key"]];
 	[settings writeToFile:path atomically:YES];
@@ -76,12 +85,18 @@
 							   actionWithTitle:@"Reset Start Screen"
 							   style:UIAlertActionStyleDestructive
 							   handler:^(UIAlertAction *action) {
-								   NSMutableDictionary* preferences = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ml.festival.redstone.plist"];
-								   //[preferences setObject:[NSArray arrayWithContentsOfFile:@"/var/mobile/Library/FESTIVAL/Redstone.bundle/2ColumnDefaultLayout.plist"] forKey:@"2ColumnLayout"];
-								   [preferences setObject:[NSArray arrayWithContentsOfFile:@"/var/mobile/Library/FESTIVAL/Redstone/3ColumnDefaultLayout.plist"] forKey:@"3ColumnLayout"];
+								   NSMutableDictionary* preferences = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ml.festival.redstone.plist"] ?: [NSMutableDictionary dictionary];
+								   NSArray* twoColumnLayout = [NSArray arrayWithContentsOfFile:@"/var/mobile/Library/FESTIVAL/Redstone/2ColumnDefaultLayout.plist"];
+								   NSArray* threeColumnLayout = [NSArray arrayWithContentsOfFile:@"/var/mobile/Library/FESTIVAL/Redstone/3ColumnDefaultLayout.plist"];
+								   if (twoColumnLayout) {
+									   [preferences setObject:twoColumnLayout forKey:@"2ColumnLayout"];
+								   }
+								   if (threeColumnLayout) {
+									   [preferences setObject:threeColumnLayout forKey:@"3ColumnLayout"];
+								   }
 								   [preferences writeToFile:@"/var/mobile/Library/Preferences/ml.festival.redstone.plist" atomically:YES];
 								   
-								   system("killall backboardd");
+								   RDSRunCommand("killall backboardd");
 							   }];
 	[alertController addAction:cancelAction];
 	[alertController addAction:okAction];
