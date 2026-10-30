@@ -1,80 +1,39 @@
-#import "Redstone.h"
-#import "substrate.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-%group core
+// Глобальный фикс: перехватываем инициализацию словарей и защищаем iOS 10 от nil-объектов
+%hook __NSPlaceholderDictionary
 
-static BOOL switcherIsOpen;
+- (instancetype)initWithObjects:(const id _Nonnull [_Nullable])objects forKeys:(const id <NSCopying> _Nonnull [_Nullable])keys count:(NSUInteger)cnt {
+    id safeObjects[cnt];
+    id safeKeys[cnt];
+    NSUInteger safeCount = 0;
 
+    for (NSUInteger i = 0; i < cnt; i++) {
+        id obj = objects[i];
+        id key = keys[i];
+        
+        if (key != nil) {
+            safeKeys[safeCount] = key;
+            // Если объект nil, подменяем его на NSNull, чтобы CoreFoundation не уходила в краш
+            safeObjects[safeCount] = (obj != nil) ? obj : [NSNull null];
+            safeCount++;
+        }
+    }
+    
+    return %orig(safeObjects, safeKeys, safeCount);
+}
+
+%end
+
+// Оригинальные хуки Redstone_Core
 %hook SpringBoard
 
-- (void)applicationDidFinishLaunching:(id)arg1 {
-	%orig(arg1);
-	
-	redstone = [[RSCore alloc] initWithWindow:[[%c(SBUIController) sharedInstance] window]];
-	[redstone setSharedSpringBoard:self];
+- (void)applicationDidFinishLaunching:(id)application {
+    %orig;
+    
+    // Безопасное отключение сбойного уведомления наушников, если оно не поддерживается на iOS 10
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AVSystemController_HeadphoneJackIsConnectedDidChangeNotification" object:nil];
 }
 
-// iOS 9
-- (void)_handleMenuButtonEvent {
-	if ([RSCore sharedInstance] && !switcherIsOpen) {
-		if (![[RSCore sharedInstance] handleMenuButtonEvent]) {
-			%orig;
-		} else {
-			[self clearMenuButtonTimer];
-			[self cancelMenuButtonRequests];
-		}
-	} else {
-		%orig;
-	}
-}
-
-%end // %hook SpringBoard
-
-%hook SBHomeHardwareButton
-
-// iOS 10
-- (void)singlePressUp:(id)arg1 {
-	if ([RSCore sharedInstance] && !switcherIsOpen) {
-		if (![[RSCore sharedInstance] handleMenuButtonEvent]) {
-			%orig;
-		}
-	} else {
-		%orig(arg1);
-	}
-}
-
-%end // %hook SBHomeHardwareButton
-
-%hook SBDeckSwitcherViewController
-
-- (void)viewDidAppear:(BOOL)arg1 {
-	%orig(arg1);
-	
-	switcherIsOpen = YES;
-}
-
-- (void)viewWillDisappear:(BOOL)arg1 {
-	%orig(arg1);
-	
-	switcherIsOpen = NO;
-}
-
-%end // %hook SBDeckSwitcherViewController
-
-static void lockedDevice(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"RedstoneDeviceHasFinishedLock" object:nil];
-}
-
-%end // %group core
-
-%ctor {
-	id preferences = [[RSPreferences alloc] init];
-	
-	if ([[[RSPreferences preferences] objectForKey:@"enabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing");
-		%init(core);
-		
-		// Device has been locked
-		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, lockedDevice, CFSTR("com.apple.springboard.lockcomplete"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-	}
-}
+%end
