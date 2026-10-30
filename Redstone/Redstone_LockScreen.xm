@@ -1,6 +1,12 @@
 #import "Redstone.h"
 #import "substrate.h"
 
+// If Redstone failed to start (or the lock screen controller was not created),
+// the hooks below must leave the stock lock screen alone instead of hiding it.
+static inline BOOL RSLockScreenActive() {
+	return [RSCore sharedInstance] != nil && [RSLockScreenController sharedInstance] != nil;
+}
+
 %group ios10
 
 SBPagedScrollView* dashboardScrollView;
@@ -20,7 +26,7 @@ SBPagedScrollView* dashboardScrollView;
 %hook SBPagedScrollView
 
 - (void)layoutSubviews {
-	if (self == dashboardScrollView) {
+	if (RSLockScreenActive() && self == dashboardScrollView) {
 		[self setScrollEnabled:NO];
 		[self setUserInteractionEnabled:NO];
 		[self setContentOffset:CGPointMake(-screenWidth, 0)];
@@ -44,6 +50,11 @@ SBPagedScrollView* dashboardScrollView;
 %hook SBDashBoardView
 
 - (void)layoutSubviews {
+	if (!RSLockScreenActive()) {
+		%orig;
+		return;
+	}
+	
 	[MSHookIvar<UIView *>(self,"_pageControl") removeFromSuperview];
 	[self setHidden:YES];
 	
@@ -59,6 +70,11 @@ SBPagedScrollView* dashboardScrollView;
 %hook SBFLockScreenDateView
 
 - (void)layoutSubviews {
+	if (!RSLockScreenActive()) {
+		%orig;
+		return;
+	}
+	
 	[MSHookIvar<SBUILegibilityLabel *>(self,"_timeLabel") removeFromSuperview];
 	[MSHookIvar<SBUILegibilityLabel *>(self,"_dateSubtitleView") removeFromSuperview];
 	[MSHookIvar<SBUILegibilityLabel *>(self,"_customSubtitleView") removeFromSuperview];
@@ -143,6 +159,11 @@ SBPagedScrollView* dashboardScrollView;
 
 - (void)layoutSubviews {
 	%orig;
+	
+	if (!RSLockScreenActive()) {
+		return;
+	}
+	
 	[self setHidden:YES];
 	
 	if (![self.superview.subviews containsObject:[[RSLockScreenController sharedInstance] containerView]]) {
@@ -157,6 +178,11 @@ SBPagedScrollView* dashboardScrollView;
 %hook SBFLockScreenDateView
 
 - (void)layoutSubviews {
+	if (!RSLockScreenActive()) {
+		%orig;
+		return;
+	}
+	
 	[MSHookIvar<SBUILegibilityLabel *>(self,"_legibilityTimeLabel") removeFromSuperview];
 	[MSHookIvar<SBUILegibilityLabel *>(self,"_legibilityDateLabel") removeFromSuperview];
 	

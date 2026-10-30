@@ -49,6 +49,13 @@
 #import "Volume/RSVolumeSlider.h"
 #import "Volume/RSNowPlayingControls.h"
 
+// Safe font loader: Segoe fonts may be missing (not shipped / not registered).
+// Returning nil here crashes SpringBoard (nil in dictionary literals), so fall back to the system font.
+static inline UIFont* RSFont(NSString* name, CGFloat size) {
+	UIFont* font = [UIFont fontWithName:name size:size];
+	return font ?: [UIFont systemFontOfSize:size];
+}
+
 #define screenWidth roundf([UIScreen mainScreen].bounds.size.width)
 #define screenHeight roundf([UIScreen mainScreen].bounds.size.height)
 #define deg2rad(angle) ((angle) / 180.0 * M_PI)
