@@ -49,7 +49,7 @@ jobs:
           make package FINALPACKAGE=1 \
             TARGET="iphone:clang:${SDKVER}:9.0" \
             ARCHS="armv7 armv7s" \
-            ADDITIONAL_LDFLAGS="-Wl,-ld_classic"
+            ADDITIONAL_LDFLAGS="-Wl,-ld_classic -Wl,-undefined,dynamic_lookup"
 
       - name: Check architectures
         working-directory: Redstone
