@@ -33,7 +33,7 @@ static RSAppListController* sharedInstance;
 		
 		noResultsLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, self.appList.frame.size.width-10, 30)];
 		[noResultsLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
-		[noResultsLabel setFont:[UIFont fontWithName:@"SegoeUI" size:17]];
+		[noResultsLabel setFont:RSFont(@"SegoeUI", 17)];
 		[noResultsLabel setHidden:YES];
 		[self.appList addSubview:noResultsLabel];
 		

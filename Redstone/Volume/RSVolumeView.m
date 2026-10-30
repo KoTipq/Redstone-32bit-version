@@ -7,12 +7,12 @@
 		category = _category;
 		
 		categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, screenWidth-20, 20)];
-		[categoryLabel setFont:[UIFont fontWithName:@"SegoeUI" size:15]];
+		[categoryLabel setFont:RSFont(@"SegoeUI", 15)];
 		[categoryLabel setTextColor:[UIColor whiteColor]];
 		[self addSubview:categoryLabel];
 		
 		volumeValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - 51, 31, 36, 36)];
-		[volumeValueLabel setFont:[UIFont fontWithName:@"SegoeUI-Light" size:32]];
+		[volumeValueLabel setFont:RSFont(@"SegoeUI-Light", 32)];
 		[volumeValueLabel setTextAlignment:NSTextAlignmentCenter];
 		[volumeValueLabel setTextColor:[UIColor whiteColor]];
 		[volumeValueLabel setText:@"--"];

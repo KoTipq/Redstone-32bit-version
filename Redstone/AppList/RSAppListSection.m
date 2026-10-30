@@ -14,7 +14,7 @@
 		sectionLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 60, 60)];
 		[sectionLabel setText:letter];
 		[sectionLabel setTextColor:[UIColor whiteColor]];
-		[sectionLabel setFont:[UIFont fontWithName:@"SegoeUI-Light" size:30]];
+		[sectionLabel setFont:RSFont(@"SegoeUI-Light", 30)];
 		[self addSubview:sectionLabel];
 		
 		UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];

@@ -7,7 +7,7 @@
 	
 	if (self) {
 		buttonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-		[buttonLabel setFont:[UIFont fontWithName:@"SegoeUI" size:34]];
+		[buttonLabel setFont:RSFont(@"SegoeUI", 34)];
 		[buttonLabel setTextColor:[UIColor whiteColor]];
 		[buttonLabel setTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:buttonLabel];
@@ -51,7 +51,7 @@
 	_isBackSpaceButton = isBackSpaceButton;
 	
 	if (isBackSpaceButton) {
-		[buttonLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:34]];
+		[buttonLabel setFont:RSFont(@"SegoeMDL2Assets", 34)];
 		[buttonLabel setText:@"\uE94F"];
 	}
 }

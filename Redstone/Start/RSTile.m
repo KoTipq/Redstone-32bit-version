@@ -25,7 +25,7 @@
 		
 #pragma mark Tile Label
 		tileLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		[tileLabel setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+		[tileLabel setFont:RSFont(@"SegoeUI", 14)];
 		[tileLabel setTextColor:[UIColor whiteColor]];
 		
 		if (self.tileInfo.localizedDisplayName) {
@@ -67,12 +67,12 @@
 #pragma mark Badge
 		if (self.tileInfo.usesCornerBadge) {
 			badgeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-			[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+			[badgeLabel setFont:RSFont(@"SegoeUI", 14)];
 			[badgeLabel setTextColor:[UIColor whiteColor]];
 			[badgeLabel setHidden:YES];
 		} else {
 			badgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
-			[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:36]];
+			[badgeLabel setFont:RSFont(@"SegoeUI", 36)];
 			[badgeLabel setTextColor:[UIColor whiteColor]];
 			[badgeLabel setTextAlignment:NSTextAlignmentCenter];
 			[badgeLabel setHidden:YES];
@@ -132,7 +132,7 @@
 		[self addSubview:unpinButton];
 		
 		UILabel* unpinLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-		[unpinLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:14]];
+		[unpinLabel setFont:RSFont(@"SegoeMDL2Assets", 14)];
 		[unpinLabel setText:@"\uE77A"];
 		[unpinLabel setTextAlignment:NSTextAlignmentCenter];
 		[unpinButton addSubview:unpinLabel];
@@ -150,7 +150,7 @@
 		
 		UILabel* scaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
 		[scaleLabel setText:@"\uE7EA"];
-		[scaleLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:14]];
+		[scaleLabel setFont:RSFont(@"SegoeMDL2Assets", 14)];
 		[scaleLabel setTextAlignment:NSTextAlignmentCenter];
 		[scaleButton addSubview:scaleLabel];
 		
@@ -354,7 +354,7 @@
 		} else {
 			[badgeLabel setText:[NSString stringWithFormat:@"%d", badgeCount]];
 		}
-		[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+		[badgeLabel setFont:RSFont(@"SegoeUI", 14)];
 		[badgeLabel sizeToFit];
 		[badgeLabel setFrame:CGRectMake(self.bounds.size.width - badgeLabel.frame.size.width - 8,
 										self.bounds.size.height - badgeLabel.frame.size.height - 8,
@@ -363,9 +363,9 @@
 		[badgeLabel setHidden:NO];
 	} else {
 		if (self.size < 2) {
-			[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:24]];
+			[badgeLabel setFont:RSFont(@"SegoeUI", 24)];
 		} else {
-			[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:36]];
+			[badgeLabel setFont:RSFont(@"SegoeUI", 36)];
 		}
 		
 		[badgeLabel setText:[NSString stringWithFormat:@"%d", MIN(badgeCount, 99)]];

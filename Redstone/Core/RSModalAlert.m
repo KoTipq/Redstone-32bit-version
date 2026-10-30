@@ -19,14 +19,14 @@
 		[self addSubview:alertView];
 		
 		alertTitle = [[UILabel alloc] initWithFrame:CGRectMake(38, 38, screenWidth-76, 38)];
-		[alertTitle setFont:[UIFont fontWithName:@"SegoeUI" size:26]];
+		[alertTitle setFont:RSFont(@"SegoeUI", 26)];
 		[alertTitle setText:title];
 		[alertTitle sizeToFit];
 		[alertTitle setTextColor:[UIColor whiteColor]];
 		[alertView addSubview:alertTitle];
 		
 		alertMessage = [[UILabel alloc] initWithFrame:CGRectMake(38, alertTitle.frame.origin.y + alertTitle.frame.size.height + 5, screenWidth-76, 164)];
-		[alertMessage setFont:[UIFont fontWithName:@"SegoeUI" size:20]];
+		[alertMessage setFont:RSFont(@"SegoeUI", 20)];
 		[alertMessage setLineBreakMode:NSLineBreakByWordWrapping];
 		[alertMessage setNumberOfLines:0];
 		[alertMessage setText:message];
@@ -59,7 +59,7 @@
 	
 	UILabel* buttonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, button.frame.size.width, button.frame.size.height)];
 	[buttonLabel setText:title];
-	[buttonLabel setFont:[UIFont fontWithName:@"SegoeUI" size:17]];
+	[buttonLabel setFont:RSFont(@"SegoeUI", 17)];
 	[buttonLabel setTextColor:[UIColor whiteColor]];
 	[buttonLabel setTextAlignment:NSTextAlignmentCenter];
 	[button addSubview:buttonLabel];

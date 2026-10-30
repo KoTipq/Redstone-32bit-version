@@ -10,10 +10,11 @@ NSBundle* redstoneBundle;
 	
 	if (lockscreenWallpaper) {
 		CFDataRef lockWallpaperDataRef = (__bridge CFDataRef)lockscreenWallpaper;
-		NSArray* imageArray = (__bridge NSArray*)CPBitmapCreateImagesFromData(lockWallpaperDataRef, NULL, 1, NULL);
-		UIImage* lockWallpaper = [UIImage imageWithCGImage:(CGImageRef)imageArray[0]];
-		
-		return lockWallpaper;
+		NSArray* imageArray = (__bridge_transfer NSArray*)CPBitmapCreateImagesFromData(lockWallpaperDataRef, NULL, 1, NULL);
+		if ([imageArray count] > 0) {
+			return [UIImage imageWithCGImage:(__bridge CGImageRef)imageArray[0]];
+		}
+		return [self imageWithColor:[UIColor blackColor] size:[UIScreen mainScreen].bounds.size];
 	} else {
 		UIImage* baseImage = [self imageWithColor:[UIColor blackColor] size:[UIScreen mainScreen].bounds.size];
 		return baseImage;
@@ -27,10 +28,11 @@ NSBundle* redstoneBundle;
 		return [self lockScreenWallpaper];
 	} else {
 		CFDataRef homeWallpaperDataRef = (__bridge CFDataRef)homescreenWallpaper;
-		NSArray* imageArray = (__bridge NSArray*)CPBitmapCreateImagesFromData(homeWallpaperDataRef, NULL, 1, NULL);
-		UIImage* homeWallpaper = [UIImage imageWithCGImage:(CGImageRef)imageArray[0]];
-		
-		return homeWallpaper;
+		NSArray* imageArray = (__bridge_transfer NSArray*)CPBitmapCreateImagesFromData(homeWallpaperDataRef, NULL, 1, NULL);
+		if ([imageArray count] > 0) {
+			return [UIImage imageWithCGImage:(__bridge CGImageRef)imageArray[0]];
+		}
+		return [self lockScreenWallpaper];
 	}
 	
 	//return [[[objc_getClass("SBWallpaperController") sharedInstance] homescreenWallpaperView] image];

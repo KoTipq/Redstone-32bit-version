@@ -8,7 +8,7 @@
 	if (self) {
 		[self setDelegate:self];
 		
-		[self setFont:[UIFont fontWithName:@"SegoeUI" size:17]];
+		[self setFont:RSFont(@"SegoeUI", 17)];
 		[self setTextColor:[UIColor whiteColor]];
 		[self setReturnKeyType:UIReturnKeySearch];
 		//[self setPlaceholder:@"Search"];

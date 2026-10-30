@@ -36,19 +36,19 @@
 		
 		ringerMuteButton = [[RSTiltView alloc] initWithFrame:CGRectMake(10, 37, 36, 36)];
 		[ringerMuteButton setTintColor:[UIColor whiteColor]];
-		[ringerMuteButton.titleLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:24]];
+		[ringerMuteButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
 		[ringerMuteButton addTarget:self action:@selector(toggleRingerMuted)];
 		[ringerVolumeView addSubview:ringerMuteButton];
 		
 		mediaMuteButton = [[RSTiltView alloc] initWithFrame:CGRectMake(10, 37, 36, 36)];
 		[mediaMuteButton setTintColor:[UIColor whiteColor]];
-		[mediaMuteButton.titleLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:24]];
+		[mediaMuteButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
 		[mediaMuteButton addTarget:self action:@selector(toggleMediaMuted)];
 		[mediaVolumeView addSubview:mediaMuteButton];
 		
 		headphoneMuteButton = [[RSTiltView alloc] initWithFrame:CGRectMake(10, 37, 36, 36)];
 		[headphoneMuteButton setTintColor:[UIColor whiteColor]];
-		[headphoneMuteButton.titleLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:24]];
+		[headphoneMuteButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
 		[headphoneMuteButton setTitle:@"\uE7F6"];
 		[headphoneMuteButton addTarget:self action:@selector(toggleMediaMuted)];
 		[headphoneVolumeView addSubview:headphoneMuteButton];
@@ -74,7 +74,7 @@
 		expandButton = [[RSTiltView alloc] initWithFrame:CGRectMake(self.frame.size.width - 46, 10, 36, 18)];
 		[expandButton setTiltEnabled:NO];
 		[expandButton setTintColor:[UIColor whiteColor]];
-		[expandButton.titleLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:18]];
+		[expandButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 18)];
 		[expandButton setTitle:@"\uE70D"];
 		[expandButton addTarget:self action:@selector(toggleExpanded)];
 		[self addSubview:expandButton];
@@ -519,12 +519,12 @@
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeMDL2Assets" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor],
 											  NSBaselineOffsetAttributeName: @-3.0
 											  } range:[baseString rangeOfString:@"\uE877"]];
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeUI" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"VIBRATE_ENABLED"]]];
 			[vibrateButton setAttributedTitle:attributedString forState:UIControlStateNormal];
@@ -533,12 +533,12 @@
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeMDL2Assets" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor],
 											  NSBaselineOffsetAttributeName: @-3.0
 											  } range:[baseString rangeOfString:@"\uE877"]];
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeUI" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"VIBRATE_DISABLED"]]];
 			[vibrateButton setAttributedTitle:attributedString forState:UIControlStateNormal];
@@ -578,12 +578,12 @@
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeMDL2Assets" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor],
 											  NSBaselineOffsetAttributeName: @-3.0
 											  } range:[baseString rangeOfString:@"\uEA8F"]];
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeUI" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"RINGER_ENABLED"]]];
 			[ringerButton setAttributedTitle:attributedString forState:UIControlStateNormal];
@@ -592,12 +592,12 @@
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeMDL2Assets" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor],
 											  NSBaselineOffsetAttributeName: @-3.0
 											  } range:[baseString rangeOfString:@"\uE7ED"]];
 			[attributedString addAttributes:@{
-											  NSFontAttributeName:[UIFont fontWithName:@"SegoeUI" size:14],
+											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"RINGER_DISABLED"]]];
 			[ringerButton setAttributedTitle:attributedString forState:UIControlStateNormal];

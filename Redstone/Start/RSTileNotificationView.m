@@ -140,7 +140,7 @@ extern dispatch_queue_t __BBServerQueue;
 	UIView* bulletinView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 	
 	UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, self.frame.size.width-16, 20)];
-	[titleLabel setFont:[UIFont fontWithName:@"SegoeUI" size:16]];
+	[titleLabel setFont:RSFont(@"SegoeUI", 16)];
 	[titleLabel setTextColor:[UIColor whiteColor]];
 	
 	if ([bulletin title] && ![[bulletin title] isEqualToString:@""]) {
@@ -151,7 +151,7 @@ extern dispatch_queue_t __BBServerQueue;
 	[bulletinView addSubview:titleLabel];
 	
 	UILabel* messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 28, self.frame.size.width-16, 40)];
-	[messageLabel setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+	[messageLabel setFont:RSFont(@"SegoeUI", 14)];
 	[messageLabel setTextColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
 	[messageLabel setText:[bulletin message]];
 	[messageLabel setNumberOfLines:2];
@@ -160,7 +160,7 @@ extern dispatch_queue_t __BBServerQueue;
 	[bulletinView addSubview:messageLabel];
 	
 	UILabel* badgeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-	[badgeLabel setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+	[badgeLabel setFont:RSFont(@"SegoeUI", 14)];
 	[badgeLabel setTextColor:[UIColor whiteColor]];
 	[badgeLabel setText:[NSString stringWithFormat:@"%i", (int)[bulletins count]]];
 	[badgeLabel sizeToFit];
@@ -177,7 +177,7 @@ extern dispatch_queue_t __BBServerQueue;
 	[bulletinView addSubview:tileImage];
 	
 	UILabel* appTitle = [[UILabel alloc] initWithFrame:CGRectMake(8, self.frame.size.height-28, tileImage.frame.origin.x-16, 20)];
-	[appTitle setFont:[UIFont fontWithName:@"SegoeUI" size:14]];
+	[appTitle setFont:RSFont(@"SegoeUI", 14)];
 	[appTitle setTextColor:[UIColor whiteColor]];
 	[appTitle setText:[application displayName]];
 	[bulletinView addSubview:appTitle];

@@ -15,7 +15,7 @@
 		[pinButton setHighlightEnabled:YES];
 		UILabel* pinLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, self.frame.size.width - 24, 66)];
 		[pinLabel setText:[RSAesthetics localizedStringForKey:@"PIN_TO_START"]];
-		[pinLabel setFont:[UIFont fontWithName:@"SegoeUI" size:18]];
+		[pinLabel setFont:RSFont(@"SegoeUI", 18)];
 		[pinLabel setTextColor:[UIColor whiteColor]];
 		[pinButton addSubview:pinLabel];
 		[self addSubview:pinButton];
@@ -24,7 +24,7 @@
 		[uninstallButton setHighlightEnabled:YES];
 		UILabel* uninstallLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, self.frame.size.width - 24, 66)];
 		[uninstallLabel setText:[RSAesthetics localizedStringForKey:@"UNINSTALL"]];
-		[uninstallLabel setFont:[UIFont fontWithName:@"SegoeUI" size:18]];
+		[uninstallLabel setFont:RSFont(@"SegoeUI", 18)];
 		[uninstallLabel setTextColor:[UIColor whiteColor]];
 		[uninstallButton addSubview:uninstallLabel];
 		[self addSubview:uninstallButton];

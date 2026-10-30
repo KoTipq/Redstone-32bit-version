@@ -17,7 +17,7 @@
 		[self addSubview:toastIcon];
 		
 		titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, self.frame.size.width - 66, 20)];
-		[titleLabel setFont:[UIFont fontWithName:@"SegoeUI-Semibold" size:15]];
+		[titleLabel setFont:RSFont(@"SegoeUI-Semibold", 15)];
 		[titleLabel setTextColor:[UIColor whiteColor]];
 		if ([bulletin title] && ![[bulletin title] isEqualToString:@""]) {
 			[titleLabel setText:[bulletin title]];
@@ -29,13 +29,13 @@
 		subtitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		if ([bulletin subtitle] && ![[bulletin subtitle] isEqualToString:@""]) {
 			[subtitleLabel setFrame:CGRectMake(54, 30, self.frame.size.width - 66, 20)];
-			[subtitleLabel setFont:[UIFont fontWithName:@"SegoeUI-Semibold" size:15]];
+			[subtitleLabel setFont:RSFont(@"SegoeUI-Semibold", 15)];
 			[subtitleLabel setTextColor:[UIColor whiteColor]];
 			[subtitleLabel setText:[bulletin subtitle]];
 		}
 		
 		messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, titleLabel.frame.origin.y + titleLabel.frame.size.height + subtitleLabel.frame.size.height, self.frame.size.width - 66, 40)];
-		[messageLabel setFont:[UIFont fontWithName:@"SegoeUI" size:15]];
+		[messageLabel setFont:RSFont(@"SegoeUI", 15)];
 		[messageLabel setTextColor:[UIColor whiteColor]];
 		[messageLabel setText:[bulletin message]];
 		[messageLabel setNumberOfLines:2];
@@ -52,7 +52,7 @@
 		[self addSubview:grabberView];
 		
 		UILabel* grabberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 20)];
-		[grabberLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:18]];
+		[grabberLabel setFont:RSFont(@"SegoeMDL2Assets", 18)];
 		[grabberLabel setText:@"\uE76F"];
 		[grabberLabel setTextAlignment:NSTextAlignmentCenter];
 		[grabberLabel setTextColor:[UIColor whiteColor]];

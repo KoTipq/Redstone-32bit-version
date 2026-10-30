@@ -27,7 +27,7 @@
 		[tileBackground addSubview:appImageView];
 		
 		appLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, frame.size.width-70, 54)];
-		[appLabel setFont:[UIFont fontWithName:@"SegoeUI-Semilight" size:20]];
+		[appLabel setFont:RSFont(@"SegoeUI-Semilight", 20)];
 		[appLabel setTextColor:[UIColor whiteColor]];
 		
 		if (self.tileInfo.localizedDisplayName) {

@@ -20,6 +20,9 @@ static RSPreferences* sharedInstance;
 		sharedInstance = self;
 		
 		self.preferences = [NSMutableDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
+		if (!self.preferences) {
+			self.preferences = [[NSMutableDictionary alloc] init];
+		}
 		
 		if (![self.preferences objectForKey:@"enabled"]) {
 			self.preferences = [[NSMutableDictionary alloc] init];
@@ -59,11 +62,13 @@ static RSPreferences* sharedInstance;
 		}*/
 		
 		if (![self.preferences objectForKey:@"2ColumnLayout"]) {
-			[self.preferences setObject:[NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/2ColumnDefaultLayout.plist", RESOURCE_PATH]] forKey:@"2ColumnLayout"];
+			NSArray* defaultLayout = [NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/2ColumnDefaultLayout.plist", RESOURCE_PATH]];
+			[self.preferences setObject:(defaultLayout ?: @[]) forKey:@"2ColumnLayout"];
 		}
 		
 		if (![self.preferences objectForKey:@"3ColumnLayout"]) {
-			[self.preferences setObject:[NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/3ColumnDefaultLayout.plist", RESOURCE_PATH]] forKey:@"3ColumnLayout"];
+			NSArray* defaultLayout = [NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/3ColumnDefaultLayout.plist", RESOURCE_PATH]];
+			[self.preferences setObject:(defaultLayout ?: @[]) forKey:@"3ColumnLayout"];
 		}
 		
 		[self.preferences writeToFile:PREFERENCES_PATH atomically:YES];

@@ -30,7 +30,7 @@
 				UILabel* jumpListLetterLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
 				[jumpListLetterLabel setTextColor:[UIColor whiteColor]];
 				[jumpListLetterLabel setTextAlignment:NSTextAlignmentCenter];
-				[jumpListLetterLabel setFont:[UIFont fontWithName:@"SegoeUI-Light" size:48]];
+				[jumpListLetterLabel setFont:RSFont(@"SegoeUI-Light", 48)];
 				
 				if ([[RSAppListController sharedInstance] sectionWithLetter:letter] != nil) {
 					UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToLetter:)];
@@ -43,7 +43,7 @@
 				
 				if ([letter isEqualToString:@"@"]) {
 					letter = @"\uE12B";
-					[jumpListLetterLabel setFont:[UIFont fontWithName:@"SegoeMDL2Assets" size:30]];
+					[jumpListLetterLabel setFont:RSFont(@"SegoeMDL2Assets", 30)];
 				}
 				[jumpListLetterLabel setText:letter];
 				

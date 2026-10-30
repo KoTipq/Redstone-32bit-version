@@ -7,13 +7,13 @@
 	
 	if (self) {
 		timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-		[timeLabel setFont:[UIFont fontWithName:@"SegoeUI-Light" size:75]];
+		[timeLabel setFont:RSFont(@"SegoeUI-Light", 75)];
 		[timeLabel setTextColor:[UIColor whiteColor]];
 		[timeLabel sizeToFit];
 		[self addSubview:timeLabel];
 		
 		dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-		[dateLabel setFont:[UIFont fontWithName:@"SegoeUI-Semilight" size:24]];
+		[dateLabel setFont:RSFont(@"SegoeUI-Semilight", 24)];
 		[dateLabel setTextColor:[UIColor whiteColor]];
 		[dateLabel sizeToFit];
 		[self addSubview:dateLabel];
