@@ -112,21 +112,6 @@ SBPagedScrollView* dashboardScrollView;
 
 %end // %hook SBFUserAuthenticationController
 
-#ifdef __LP64__
-// Touch ID exists only on 64-bit devices; on armv7/armv7s the 64-bit argument would have a different ABI layout.
-%hook SBDashBoardMesaUnlockBehavior
-
-- (void)handleBiometricEvent:(unsigned long long)arg1 {
-	%orig;
-	
-	if(arg1 == 10) {
-		[[[RSLockScreenController sharedInstance] passcodeEntryController] handleFailedMesaAuthentication];
-	}
-}
-
-%end // %hook SBDashBoardMesaUnlockBehavior
-#endif
-
 %hook SBBacklightController
 
 - (void)_startFadeOutAnimationFromLockSource:(int)arg1 {
