@@ -1,5 +1,27 @@
 #import "../Redstone.h"
 
+// Writes startup errors to /var/mobile/Library/Logs/Redstone.log so a crash can be diagnosed
+static void RSLogException(NSException* exception) {
+	@try {
+		NSString* text = [NSString stringWithFormat:@"[%@] Redstone startup failed\nName: %@\nReason: %@\nReturn addresses: %@\nStack: %@\n\n",
+						  [NSDate date],
+						  [exception name],
+						  [exception reason],
+						  [exception callStackReturnAddresses],
+						  [exception callStackSymbols]];
+		NSString* path = @"/var/mobile/Library/Logs/Redstone.log";
+		NSFileHandle* handle = [NSFileHandle fileHandleForWritingAtPath:path];
+		if (!handle) {
+			[[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil];
+			handle = [NSFileHandle fileHandleForWritingAtPath:path];
+		}
+		[handle seekToEndOfFile];
+		[handle writeData:[text dataUsingEncoding:NSUTF8StringEncoding]];
+		[handle closeFile];
+		NSLog(@"[Redstone] %@", text);
+	} @catch (NSException* ignored) {}
+}
+
 @implementation RSCore
 
 static RSCore* sharedInstance;
@@ -47,6 +69,10 @@ static id currentApplication;
 		sharedInstance = self;
 		self.window = window;
 		
+		NSArray* viewsBefore = [[self.window subviews] copy];
+		
+		@try {
+		
 		[UIFont registerFontFromURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Fonts/segoeui.ttf", RESOURCE_PATH]]];
 		[UIFont registerFontFromURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Fonts/segoeuil.ttf", RESOURCE_PATH]]];
 		[UIFont registerFontFromURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Fonts/segoeuisl.ttf", RESOURCE_PATH]]];
@@ -89,6 +115,24 @@ static id currentApplication;
 		
 		if ([[[RSPreferences preferences] objectForKey:@"lockScreenEnabled"] boolValue] || [[[RSPreferences preferences] objectForKey:@"volumeControlsEnabled"] boolValue]) {
 			self.soundController = [RSSoundController new];
+		}
+		
+		} @catch (NSException* exception) {
+			// Something failed while building the interface: log it, undo what was added
+			// and leave the normal home screen alone instead of crashing SpringBoard.
+			RSLogException(exception);
+			
+			for (UIView* view in [[self.window subviews] copy]) {
+				if (![viewsBefore containsObject:view]) {
+					[view removeFromSuperview];
+				}
+			}
+			for (UIView* view in viewsBefore) {
+				[view setHidden:NO];
+			}
+			
+			wallpaperView = nil;
+			sharedInstance = nil;
 		}
 	}
 	
