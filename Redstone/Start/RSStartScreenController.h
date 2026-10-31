@@ -19,6 +19,8 @@
 - (void)loadTiles;
 - (void)saveTiles;
 - (NSArray*)pinnedTiles;
+- (void)updateTileWallpapers;
+- (void)reloadTileWallpapers;
 - (NSArray*)pinnedLeafIdentifiers;
 - (RSTile*)tileForLeafIdentifier:(NSString*)leafId;
 

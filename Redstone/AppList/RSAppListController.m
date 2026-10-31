@@ -23,7 +23,8 @@ static RSAppListController* sharedInstance;
 		sectionBackgroundContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 60)];
 		[sectionBackgroundContainer setClipsToBounds:YES];
 		
-		sectionBackgroundImage = [[UIImageView alloc] initWithImage:[RSAesthetics homeScreenWallpaper]];
+		sectionBackgroundImage = [[UIImageView alloc] initWithImage:(RSPrefBool(@"startBackgroundBlack") ? nil : [RSAesthetics homeScreenWallpaper])];
+		[sectionBackgroundContainer setBackgroundColor:[UIColor blackColor]];
 		[sectionBackgroundImage setFrame:CGRectMake(0, -70, screenWidth, screenHeight)];
 		[sectionBackgroundContainer addSubview:sectionBackgroundImage];
 		
@@ -115,8 +116,21 @@ static RSAppListController* sharedInstance;
 		}
 	}
 	
+	BOOL reversedOrder = [RSPrefString(@"appListSortOrder") isEqualToString:@"za"];
+	
 	NSArray* sortedSections = [sections sortedArrayUsingComparator:^NSComparisonResult(RSAppListSection* section1, RSAppListSection* section2) {
-		return [section1.displayName compare:section2.displayName];
+		NSUInteger index1 = [alphabet rangeOfString:section1.displayName].location;
+		NSUInteger index2 = [alphabet rangeOfString:section2.displayName].location;
+		
+		if (index1 == index2) {
+			return NSOrderedSame;
+		}
+		
+		BOOL ascending = index1 < index2;
+		if (reversedOrder) {
+			ascending = !ascending;
+		}
+		return ascending ? NSOrderedAscending : NSOrderedDescending;
 	}];
 	sections = [sortedSections mutableCopy];
 	
@@ -125,7 +139,11 @@ static RSAppListController* sharedInstance;
 		
 		if ([arrayToSort count] > 0) {
 			arrayToSort = [arrayToSort sortedArrayUsingComparator:^NSComparisonResult(RSApp* app1, RSApp* app2) {
-				return [[app1.icon displayName] caseInsensitiveCompare:[app2.icon displayName]];
+				NSComparisonResult result = [[app1.icon displayName] caseInsensitiveCompare:[app2.icon displayName]];
+				if (reversedOrder) {
+					result = (NSComparisonResult)(-result);
+				}
+				return result;
 			}];
 			
 			[appsBySection setObject:arrayToSort forKey:[alphabet substringWithRange:NSMakeRange(i,1)]];
@@ -172,11 +190,13 @@ static RSAppListController* sharedInstance;
 	
 	int yPos = 0;
 	id previousSection = nil;
+	BOOL reversedOrder = [RSPrefString(@"appListSortOrder") isEqualToString:@"za"];
 	for (int i=0; i<28; i++) {
-		NSArray* currentSection = [appsBySection objectForKey:[alphabet substringWithRange:NSMakeRange(i,1)]];
+		int letterIndex = reversedOrder ? 27 - i : i;
+		NSArray* currentSection = [appsBySection objectForKey:[alphabet substringWithRange:NSMakeRange(letterIndex,1)]];
 		
 		if ([currentSection count] > 0) {
-			previousSection = [alphabet substringWithRange:NSMakeRange(i,1)];
+			previousSection = [alphabet substringWithRange:NSMakeRange(letterIndex,1)];
 			
 			RSAppListSection* section = [self sectionWithLetter:previousSection];
 			[section setFrame:CGRectMake(0, yPos, screenWidth, 60)];

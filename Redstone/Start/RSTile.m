@@ -14,6 +14,22 @@
 		
 		[self.titleLabel removeFromSuperview];
 		
+		if ([RSTile wallpaperInTilesEnabled]) {
+			// Black start background: every tile shows its own piece of the wallpaper behind the accent color
+			wallpaperClipView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+			[wallpaperClipView setClipsToBounds:YES];
+			[wallpaperClipView setUserInteractionEnabled:NO];
+			[self addSubview:wallpaperClipView];
+			
+			wallpaperCropView = [[UIImageView alloc] initWithImage:[RSTile sharedTileWallpaper]];
+			[wallpaperCropView setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+			[wallpaperClipView addSubview:wallpaperCropView];
+			
+			wallpaperTintView = [[UIView alloc] initWithFrame:wallpaperClipView.bounds];
+			[wallpaperTintView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+			[wallpaperClipView addSubview:wallpaperTintView];
+		}
+		
 		[self setBackgroundColor:[RSAesthetics accentColorForTile:self.tileInfo]];
 		
 		tileWrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -43,7 +59,7 @@
 									   tileLabel.frame.size.height)];
 		[tileContainer addSubview:tileLabel];
 		
-		if (self.size < 2 || self.tileInfo.tileHidesLabel || [[self.tileInfo.labelHiddenForSizes objectForKey:[[NSNumber numberWithInt:self.size] stringValue]] boolValue]) {
+		if ([self shouldHideTileLabel]) {
 			[tileLabel setHidden:YES];
 		} else {
 			[tileLabel setHidden:NO];
@@ -63,6 +79,8 @@
 			[tileImageView setTintColor:[UIColor whiteColor]];
 			[tileContainer addSubview:tileImageView];
 		}
+		
+		[tileImageView setHidden:!RSPrefBool(@"showTileIcons")];
 		
 #pragma mark Badge
 		if (self.tileInfo.usesCornerBadge) {
@@ -226,6 +244,69 @@
 	[[RSStartScreenController sharedInstance] unpinTile:self];
 }
 
++ (BOOL)wallpaperInTilesEnabled {
+	return RSPrefBool(@"startBackgroundBlack") && RSPrefBool(@"wallpaperInTiles");
+}
+
+static UIImage* sharedTileWallpaper;
+
++ (UIImage*)sharedTileWallpaper {
+	if (!sharedTileWallpaper) {
+		sharedTileWallpaper = [RSAesthetics homeScreenWallpaper];
+	}
+	
+	return sharedTileWallpaper;
+}
+
++ (void)invalidateSharedTileWallpaper {
+	sharedTileWallpaper = nil;
+}
+
+- (void)reloadWallpaperImage {
+	[wallpaperCropView setImage:[RSTile sharedTileWallpaper]];
+	[self updateWallpaperCrop];
+}
+
+- (void)updateWallpaperCrop {
+	if (!wallpaperCropView || !self.window) {
+		return;
+	}
+	
+	CGPoint origin = [self convertPoint:CGPointZero toView:self.window];
+	[wallpaperClipView setFrame:self.bounds];
+	[wallpaperCropView setFrame:CGRectMake(-origin.x, -origin.y, screenWidth, screenHeight)];
+}
+
+- (void)setBackgroundColor:(UIColor*)backgroundColor {
+	if (wallpaperTintView) {
+		[wallpaperTintView setBackgroundColor:backgroundColor];
+		[super setBackgroundColor:[UIColor clearColor]];
+	} else {
+		[super setBackgroundColor:backgroundColor];
+	}
+}
+
+- (void)didMoveToWindow {
+	[super didMoveToWindow];
+	[self updateWallpaperCrop];
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	[self updateWallpaperCrop];
+}
+
+- (BOOL)shouldHideTileLabel {
+	return self.size < 2
+		|| !RSPrefBool(@"showTileLabels")
+		|| self.tileInfo.tileHidesLabel
+		|| [[self.tileInfo.labelHiddenForSizes objectForKey:[[NSNumber numberWithInt:self.size] stringValue]] boolValue];
+}
+
+- (void)setTiltEnabled:(BOOL)tiltEnabled {
+	[super setTiltEnabled:(tiltEnabled && RSPrefBool(@"tileTiltEnabled"))];
+}
+
 - (void)setNextSize {
 	switch (self.size) {
 		case 1:
@@ -235,6 +316,16 @@
 			self.size = 1;
 			break;
 		case 3:
+			if (RSPrefBool(@"largeTilesEnabled")) {
+				self.size = 4;
+			} else {
+				self.size = RSPrefBool(@"tallTilesEnabled") ? 7 : 2;
+			}
+			break;
+		case 4:
+			self.size = RSPrefBool(@"tallTilesEnabled") ? 7 : 2;
+			break;
+		case 7:
 			self.size = 2;
 			break;
 		default: break;
@@ -285,7 +376,7 @@
 		}
 	}
 	
-	if (self.size < 2 || self.tileInfo.tileHidesLabel || [[self.tileInfo.labelHiddenForSizes objectForKey:[[NSNumber numberWithInt:self.size] stringValue]] boolValue]) {
+	if ([self shouldHideTileLabel]) {
 		[tileLabel setHidden:YES];
 	} else {
 		[tileLabel setHidden:NO];
@@ -306,6 +397,8 @@
 		[tileImageView setImage:[RSAesthetics getImageForTileWithBundleIdentifier:[[self.icon application] bundleIdentifier] size:self.size colored:self.tileInfo.hasColoredIcon]];
 		[tileImageView setTintColor:[UIColor whiteColor]];
 	}
+	
+	[tileImageView setHidden:!RSPrefBool(@"showTileIcons")];
 	
 	[unpinButton setCenter:CGPointMake(self.frame.size.width, 0)];
 	[scaleButton setCenter:CGPointMake(self.frame.size.width, self.frame.size.height)];
@@ -330,6 +423,8 @@
 			return 0.0;
 			break;
 		case 4:
+			return 90.0;
+		case 7:
 			return 90.0;
 		default:
 			return 0.0;
@@ -384,7 +479,7 @@
 // LIVE TILE METHODS
 
 - (void)startLiveTile {
-	if (!liveTile) {
+	if (!liveTile || !RSPrefBool(@"liveTilesEnabled")) {
 		return;
 	}
 	

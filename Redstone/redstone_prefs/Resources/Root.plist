@@ -251,6 +251,264 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Tiles</string>
+			<key>footerText</key>
+			<string>Changes apply after restarting SpringBoard. Large (4x4) and Tall (2x4, a wide tile turned upright) tiles add extra sizes to the tile resize button.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>showTileIcons</string>
+			<key>label</key>
+			<string>Show Tile Icons</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>showTileLabels</string>
+			<key>label</key>
+			<string>Show Tile Names</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>largeTilesEnabled</string>
+			<key>label</key>
+			<string>Allow Large Tiles</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>tallTilesEnabled</string>
+			<key>label</key>
+			<string>Allow Tall Tiles</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>tileTiltEnabled</string>
+			<key>label</key>
+			<string>Tile Tilt Animation</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>liveTilesEnabled</string>
+			<key>label</key>
+			<string>Live Tiles</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Start Background</string>
+			<key>footerText</key>
+			<string>Black Start Background replaces the wallpaper behind the tiles with black. Wallpaper Through Tiles then shows your wallpaper only inside the tiles (lower Tile Opacity to see more of it).</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>startBackgroundBlack</string>
+			<key>label</key>
+			<string>Black Start Background</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>wallpaperInTiles</string>
+			<key>label</key>
+			<string>Wallpaper Through Tiles</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Tile Spacing</string>
+			<key>footerText</key>
+			<string>Space between tiles, from 2 to 12 points (default 5).</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>5.0</real>
+			<key>min</key>
+			<real>2.0</real>
+			<key>max</key>
+			<real>12.0</real>
+			<key>showValue</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>tileSpacing</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Tile Icon Size</string>
+			<key>footerText</key>
+			<string>Scale of the icon on each tile, from 50% to 150% (default 100%).</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0.5</real>
+			<key>max</key>
+			<real>1.5</real>
+			<key>showValue</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>tileIconScale</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Lock Screen</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<string>system</string>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>lockScreenTimeFormat</string>
+			<key>label</key>
+			<string>Time Format</string>
+			<key>validTitles</key>
+			<array>
+				<string>System</string>
+				<string>12-hour</string>
+				<string>24-hour</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>system</string>
+				<string>12</string>
+				<string>24</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>lockScreenShowDate</string>
+			<key>label</key>
+			<string>Show Date</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Wallpaper Dimming</string>
+			<key>footerText</key>
+			<string>Darkens the lock screen wallpaper, from 0 to 85% (default 0).</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>0.0</real>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>0.85</real>
+			<key>showValue</key>
+			<true/>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>key</key>
+			<string>lockScreenDim</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>App List</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<string>az</string>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>appListSortOrder</string>
+			<key>label</key>
+			<string>Sort Order</string>
+			<key>validTitles</key>
+			<array>
+				<string>A to Z</string>
+				<string>Z to A</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>az</string>
+				<string>za</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>

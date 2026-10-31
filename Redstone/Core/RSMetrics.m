@@ -3,9 +3,13 @@
 @implementation RSMetrics
 
 int columns;
+static CGFloat tileSpacing = 5.0;
 
 + (void)initialize {
 	columns = [[[RSPreferences preferences] objectForKey:@"showMoreTiles"] boolValue] ? 3 : 2;
+	
+	id spacingValue = [[RSPreferences preferences] objectForKey:@"tileSpacing"];
+	tileSpacing = spacingValue ? MIN(MAX([spacingValue floatValue], 2.0), 12.0) : 5.0;
 }
 
 + (CGSize)tileDimensionsForSize:(int)size {
@@ -107,6 +111,9 @@ int columns;
 		return CGSizeMake(baseTileWidth*4 + [self tileBorderSpacing]*3 , baseTileWidth*2 + [self tileBorderSpacing]);
 	} else if (size == 4) {
 		return CGSizeMake(baseTileWidth*4 + [self tileBorderSpacing]*3 , baseTileWidth*4 + [self tileBorderSpacing]*3);
+	} else if (size == 7) {
+		// Tall tile: the wide tile rotated by 90 degrees (2 units wide, 4 units high)
+		return CGSizeMake(baseTileWidth*2 + [self tileBorderSpacing] , baseTileWidth*4 + [self tileBorderSpacing]*3);
 	}
 	
 	return CGSizeZero;
@@ -164,19 +171,29 @@ int columns;
 		default: break;
 	}*/
 	
+	if (size == 7) {
+		size = 2; // tall tiles use the same icon size as medium tiles
+	}
+	
 	CGSize tileSize = [self tileDimensionsForSize:size];
 	
+	id scaleValue = [[RSPreferences preferences] objectForKey:@"tileIconScale"];
+	CGFloat iconScale = scaleValue ? MIN(MAX([scaleValue floatValue], 0.5), 1.5) : 1.0;
+	CGFloat maxIconSide = MIN(tileSize.width, tileSize.height) * 0.9;
+	
 	if (size == 1) {
-		return CGSizeMake(tileSize.height * 0.5, tileSize.height * 0.5);
+		CGFloat side = MIN(tileSize.height * 0.5 * iconScale, maxIconSide);
+		return CGSizeMake(side, side);
 	} else if (size == 2 || size == 3 || size == 4) {
-		return CGSizeMake(tileSize.height * 0.33333, tileSize.height * 0.33333);
+		CGFloat side = MIN(tileSize.height * 0.33333 * iconScale, maxIconSide);
+		return CGSizeMake(side, side);
 	}
 	
 	return CGSizeZero;
 }
 
 + (CGFloat)tileBorderSpacing {
-	return 5.0;
+	return tileSpacing;
 }
 
 + (int)columns {

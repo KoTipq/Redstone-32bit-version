@@ -54,4 +54,9 @@
 	return [super pointInside:point withEvent:event];
 }
 
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	[[RSStartScreenController sharedInstance] updateTileWallpapers];
+}
+
 @end

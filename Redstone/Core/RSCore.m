@@ -82,7 +82,8 @@ static id currentApplication;
 		if ([[[RSPreferences preferences] objectForKey:@"startScreenEnabled"] boolValue]) {
 			[[self class] hideAllExcept:nil];
 			
-			wallpaperView = [[UIImageView alloc] initWithImage:[RSAesthetics homeScreenWallpaper]];
+			wallpaperView = [[UIImageView alloc] initWithImage:(RSPrefBool(@"startBackgroundBlack") ? nil : [RSAesthetics homeScreenWallpaper])];
+			[wallpaperView setBackgroundColor:[UIColor blackColor]];
 			[wallpaperView setFrame:[[UIScreen mainScreen] bounds]];
 			[self.window addSubview:wallpaperView];
 			
@@ -243,7 +244,14 @@ static id currentApplication;
 }
 
 - (void)updateWallpaper {
-	[wallpaperView setImage:[RSAesthetics homeScreenWallpaper]];
+	if (RSPrefBool(@"startBackgroundBlack")) {
+		[wallpaperView setImage:nil];
+	} else {
+		[wallpaperView setImage:[RSAesthetics homeScreenWallpaper]];
+	}
+	
+	[RSTile invalidateSharedTileWallpaper];
+	[[RSStartScreenController sharedInstance] reloadTileWallpapers];
 }
 
 - (id)currentApplication {

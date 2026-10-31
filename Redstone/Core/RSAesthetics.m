@@ -71,6 +71,9 @@ NSBundle* redstoneBundle;
 		case 4:
 			iconFileName = @"tile-269x269";
 			break;
+		case 7:
+			iconFileName = @"tile-269x269";
+			break;
 		case 5:
 			iconFileName = @"tile-AppList";
 			break;

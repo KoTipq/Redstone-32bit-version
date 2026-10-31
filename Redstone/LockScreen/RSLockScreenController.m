@@ -20,6 +20,14 @@ static RSLockScreenController* sharedInstance;
 		[wallpaperView setImage:[RSAesthetics lockScreenWallpaper]];
 		[self.containerView addSubview:wallpaperView];
 		
+		CGFloat wallpaperDim = MIN(MAX(RSPrefFloat(@"lockScreenDim"), 0.0), 0.85);
+		if (wallpaperDim > 0.0) {
+			UIView* wallpaperDimView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+			[wallpaperDimView setBackgroundColor:[UIColor colorWithWhite:0 alpha:wallpaperDim]];
+			[wallpaperDimView setUserInteractionEnabled:NO];
+			[self.containerView addSubview:wallpaperDimView];
+		}
+		
 		wallpaperOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
 		[wallpaperOverlayView setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.75]];
 		[wallpaperOverlayView setAlpha:0];
@@ -52,6 +60,14 @@ static RSLockScreenController* sharedInstance;
 }
 
 - (void)setLockScreenTime:(NSString*)time {
+	NSString* timeFormat = RSPrefString(@"lockScreenTimeFormat");
+	if ([timeFormat isEqualToString:@"12"] || [timeFormat isEqualToString:@"24"]) {
+		NSDateFormatter* timeFormatter = [[NSDateFormatter alloc] init];
+		[timeFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+		[timeFormatter setDateFormat:[timeFormat isEqualToString:@"24"] ? @"HH:mm" : @"h:mm"];
+		time = [timeFormatter stringFromDate:[NSDate date]];
+	}
+	
 	[self.lockScreenView setTime:time];
 	
 	[wallpaperOverlayView setHidden:![[objc_getClass("SBUserAgent") sharedUserAgent] deviceIsPasscodeLocked]];

@@ -572,4 +572,24 @@ static RSStartScreenController* sharedInstance;
 	}
 }
 
+- (void)updateTileWallpapers {
+	if (![RSTile wallpaperInTilesEnabled]) {
+		return;
+	}
+	
+	for (RSTile* tile in pinnedTiles) {
+		[tile updateWallpaperCrop];
+	}
+}
+
+- (void)reloadTileWallpapers {
+	if (![RSTile wallpaperInTilesEnabled]) {
+		return;
+	}
+	
+	for (RSTile* tile in pinnedTiles) {
+		[tile reloadWallpaperImage];
+	}
+}
+
 @end

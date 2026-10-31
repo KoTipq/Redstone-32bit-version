@@ -56,6 +56,11 @@ static inline UIFont* RSFont(NSString* name, CGFloat size) {
 	return font ?: [UIFont systemFontOfSize:size];
 }
 
+// Preference helpers (values live in ml.festival.redstone.plist)
+#define RSPrefBool(key) [[[RSPreferences preferences] objectForKey:key] boolValue]
+#define RSPrefFloat(key) [[[RSPreferences preferences] objectForKey:key] floatValue]
+#define RSPrefString(key) ((NSString*)[[RSPreferences preferences] objectForKey:key])
+
 #define screenWidth roundf([UIScreen mainScreen].bounds.size.width)
 #define screenHeight roundf([UIScreen mainScreen].bounds.size.height)
 #define deg2rad(angle) ((angle) / 180.0 * M_PI)

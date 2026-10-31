@@ -35,6 +35,7 @@
 
 - (void)setDate:(NSString *)date {
 	[dateLabel setText:date];
+	[dateLabel setHidden:!RSPrefBool(@"lockScreenShowDate")];
 	[dateLabel sizeToFit];
 	[dateLabel setFrame:CGRectMake(21, screenHeight - dateLabel.frame.size.height - (110 - 42), dateLabel.frame.size.width, dateLabel.frame.size.height)];
 }

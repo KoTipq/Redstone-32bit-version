@@ -33,6 +33,10 @@
 	NSInteger liveTilePageIndex;
 	
 	RSTileNotificationView* notificationTile;
+	
+	UIView* wallpaperClipView;
+	UIImageView* wallpaperCropView;
+	UIView* wallpaperTintView;
 }
 
 @property (nonatomic, assign) CGPoint originalCenter;
@@ -49,6 +53,12 @@
 - (CGRect)basePosition;
 - (CGPoint)originalCenter;
 - (void)setBadge:(int)badgeCount;
+
++ (BOOL)wallpaperInTilesEnabled;
++ (UIImage*)sharedTileWallpaper;
++ (void)invalidateSharedTileWallpaper;
+- (void)updateWallpaperCrop;
+- (void)reloadWallpaperImage;
 
 - (void)startLiveTile;
 - (void)stopLiveTile;

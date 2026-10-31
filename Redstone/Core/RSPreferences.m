@@ -61,6 +61,29 @@ static RSPreferences* sharedInstance;
 			[self.preferences setValue:[NSNumber numberWithBool:YES] forKey:@"showWallpaper"];
 		}*/
 		
+		// Customization defaults (only added when missing, existing choices are kept)
+		NSDictionary* customizationDefaults = @{
+			@"tileSpacing": @5.0,
+			@"tileIconScale": @1.0,
+			@"showTileIcons": @YES,
+			@"showTileLabels": @YES,
+			@"largeTilesEnabled": @NO,
+			@"tileTiltEnabled": @YES,
+			@"liveTilesEnabled": @YES,
+			@"lockScreenDim": @0.0,
+			@"lockScreenTimeFormat": @"system",
+			@"lockScreenShowDate": @YES,
+			@"appListSortOrder": @"az",
+			@"startBackgroundBlack": @NO,
+			@"wallpaperInTiles": @YES,
+			@"tallTilesEnabled": @NO
+		};
+		for (NSString* key in customizationDefaults) {
+			if (![self.preferences objectForKey:key]) {
+				[self.preferences setObject:[customizationDefaults objectForKey:key] forKey:key];
+			}
+		}
+		
 		if (![self.preferences objectForKey:@"2ColumnLayout"]) {
 			NSArray* defaultLayout = [NSArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/2ColumnDefaultLayout.plist", RESOURCE_PATH]];
 			[self.preferences setObject:(defaultLayout ?: @[]) forKey:@"2ColumnLayout"];

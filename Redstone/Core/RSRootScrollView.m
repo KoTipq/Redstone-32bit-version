@@ -30,6 +30,7 @@
 	[self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:progress]];
 	[[RSAppListController sharedInstance] updateSectionOverlayPosition];
 	[[RSAppListController sharedInstance] setSectionOverlayAlpha:progress];
+	[[RSStartScreenController sharedInstance] updateTileWallpapers];
 }
 
 - (UIView *)hitTest:(CGPoint) point withEvent:(UIEvent *)event {
