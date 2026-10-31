@@ -1,0 +1,26 @@
+/* App List */
+"SEARCH" = "Поиск";
+"PIN_TO_START" = "Закрепить на начальном экране";
+"UNINSTALL" = "Удалить";
+"NO_RESULTS_FOUND" = "Нет результатов для «%@»";
+"ALL_APPS" = "Все приложения";
+
+/* Media Controls */
+"MEDIA_UNKNOWN_TITLE" = "Неизвестное название";
+"MEDIA_UNKNOWN_ARTIST" = "Неизвестный исполнитель";
+"MEDIA_UNKNOWN_ALBUM" = "Неизвестный альбом";
+
+/* Lock Screen */
+"PASSCODE_ENTER_PIN" = "Введите PIN-код";
+"PASSCODE_INVALID_PIN" = "Неверный PIN-код";
+"PASSCODE_INVALID_MESA" = "повторите попытку";
+
+/* Volume Controls */
+"RINGER_VOLUME_ENABLED" = "Звонок и уведомления";
+"RINGER_VOLUME_VIBRATION" = "Вибрация";
+"MEDIA_VOLUME" = "Мультимедиа и приложения";
+"HEADPHONE_VOLUME" = "Наушники";
+"VIBRATE_ENABLED" = "Вибрация вкл.";
+"VIBRATE_DISABLED" = "Вибрация выкл.";
+"RINGER_ENABLED" = "Звонок вкл.";
+"RINGER_DISABLED" = "Звонок выкл.";
