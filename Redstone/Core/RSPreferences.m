@@ -76,7 +76,8 @@ static RSPreferences* sharedInstance;
 			@"appListSortOrder": @"az",
 			@"startBackgroundBlack": @NO,
 			@"wallpaperInTiles": @YES,
-			@"tallTilesEnabled": @NO
+			@"tallTilesEnabled": @NO,
+			@"language": @"system"
 		};
 		for (NSString* key in customizationDefaults) {
 			if (![self.preferences objectForKey:key]) {

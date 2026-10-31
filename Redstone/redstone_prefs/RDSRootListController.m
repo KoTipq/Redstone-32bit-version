@@ -2,6 +2,8 @@
 #include <dlfcn.h>
 
 // system() is marked unavailable in newer iOS SDKs, so look it up at runtime.
+#define RDSLocalized(text) [[NSBundle bundleForClass:[RDSRootListController class]] localizedStringForKey:text value:text table:@"Root"]
+
 static void RDSRunCommand(const char* command) {
 	int (*systemFunction)(const char*) = (int (*)(const char*))dlsym(RTLD_DEFAULT, "system");
 	if (systemFunction) {
@@ -74,15 +76,15 @@ static void RDSRunCommand(const char* command) {
 - (void)resetHomeScreenLayout {
 	UIAlertController *alertController = [UIAlertController
 										  alertControllerWithTitle:@""
-										  message:@"This will reset your Start Screen layout to factory defaults."
+										  message:RDSLocalized(@"This will reset your Start Screen layout to factory defaults.")
 										  preferredStyle:UIAlertControllerStyleActionSheet];
 	UIAlertAction *cancelAction = [UIAlertAction
-								   actionWithTitle:@"Cancel"
+								   actionWithTitle:RDSLocalized(@"Cancel")
 								   style:UIAlertActionStyleCancel
 								   handler:nil];
 	
 	UIAlertAction *okAction = [UIAlertAction
-							   actionWithTitle:@"Reset Start Screen"
+							   actionWithTitle:RDSLocalized(@"Reset Start Screen")
 							   style:UIAlertActionStyleDestructive
 							   handler:^(UIAlertAction *action) {
 								   NSMutableDictionary* preferences = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ml.festival.redstone.plist"] ?: [NSMutableDictionary dictionary];

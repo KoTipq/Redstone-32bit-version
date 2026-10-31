@@ -171,7 +171,18 @@ NSBundle* redstoneBundle;
 
 + (NSString*)localizedStringForKey:(NSString*)key {
 	if (!redstoneBundle) {
-		redstoneBundle = [NSBundle bundleWithPath:RESOURCE_PATH];
+		// Optional language override from the settings (system / en / de / ru)
+		NSString* language = RSPrefString(@"language");
+		if ([language length] > 0 && ![language isEqualToString:@"system"]) {
+			NSString* languagePath = [NSString stringWithFormat:@"%@/%@.lproj", RESOURCE_PATH, language];
+			if ([[NSFileManager defaultManager] fileExistsAtPath:languagePath]) {
+				redstoneBundle = [NSBundle bundleWithPath:languagePath];
+			}
+		}
+		
+		if (!redstoneBundle) {
+			redstoneBundle = [NSBundle bundleWithPath:RESOURCE_PATH];
+		}
 	}
 	
 	return [redstoneBundle localizedStringForKey:key value:nil table:nil];

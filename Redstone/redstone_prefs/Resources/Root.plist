@@ -252,6 +252,42 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Language</string>
+			<key>footerText</key>
+			<string>Applies after restarting SpringBoard. The text of this settings page follows the system language.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<string>system</string>
+			<key>defaults</key>
+			<string>ml.festival.redstone</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>language</string>
+			<key>label</key>
+			<string>Redstone Language</string>
+			<key>validTitles</key>
+			<array>
+				<string>System</string>
+				<string>English</string>
+				<string>Deutsch</string>
+				<string>Русский</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>system</string>
+				<string>en</string>
+				<string>de</string>
+				<string>ru</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Tiles</string>
 			<key>footerText</key>
 			<string>Changes apply after restarting SpringBoard. Large (4x4) and Tall (2x4, a wide tile turned upright) tiles add extra sizes to the tile resize button.</string>

@@ -34,7 +34,15 @@
 		}
 		
 		if ([tileInfo objectForKey:@"LocalizedDisplayName"] && [[tileInfo objectForKey:@"LocalizedDisplayName"] boolValue]) {
-			_localizedDisplayName = [tileBundle localizedStringForKey:@"DisplayName" value:nil table:nil];
+			NSBundle* displayNameBundle = tileBundle;
+			NSString* language = RSPrefString(@"language");
+			if ([language length] > 0 && ![language isEqualToString:@"system"]) {
+				NSString* languagePath = [[tileBundle bundlePath] stringByAppendingPathComponent:[language stringByAppendingString:@".lproj"]];
+				if ([[NSFileManager defaultManager] fileExistsAtPath:languagePath]) {
+					displayNameBundle = [NSBundle bundleWithPath:languagePath];
+				}
+			}
+			_localizedDisplayName = [displayNameBundle localizedStringForKey:@"DisplayName" value:nil table:nil];
 		}
 		
 		if ([tileInfo objectForKey:@"AccentColor"]) {
