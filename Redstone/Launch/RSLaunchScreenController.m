@@ -3,6 +3,7 @@
 @implementation RSLaunchScreenController
 
 static RSLaunchScreenController* sharedInstance;
+static NSUInteger launchScreenGeneration;
 
 + (id)sharedInstance {
 	return sharedInstance;
@@ -36,6 +37,10 @@ static RSLaunchScreenController* sharedInstance;
 }
 
 - (void)show {
+	launchScreenGeneration++;
+	[self.launchScreen.layer removeAllAnimations];
+	[self.launchScreen setAlpha:1.0];
+	
 	CAAnimation* scale = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"
 														  function:CubicEaseOut
 														 fromValue:0.8
@@ -58,9 +63,28 @@ static RSLaunchScreenController* sharedInstance;
 }
 
 - (void)hide {
-	[self.launchScreen setHidden:YES];
-	[self.launchScreen.layer removeAllAnimations];
-	[self.launchScreen.launchImageView.layer removeAllAnimations];
+	if (self.launchScreen.hidden) {
+		return;
+	}
+	
+	NSUInteger generation = launchScreenGeneration;
+	
+	// Fade out smoothly so the app does not "pop" in at the end of the launch animation
+	[self.launchScreen.layer removeAnimationForKey:@"opacity"];
+	[self.launchScreen setAlpha:1.0];
+	
+	[UIView animateWithDuration:0.25 delay:0.05 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction animations:^{
+		[self.launchScreen setAlpha:0.0];
+	} completion:^(BOOL finished) {
+		if (generation != launchScreenGeneration) {
+			return; // a new launch started in the meantime
+		}
+		
+		[self.launchScreen setHidden:YES];
+		[self.launchScreen setAlpha:1.0];
+		[self.launchScreen.layer removeAllAnimations];
+		[self.launchScreen.launchImageView.layer removeAllAnimations];
+	}];
 }
 
 @end

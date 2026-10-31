@@ -12,5 +12,7 @@
 + (UIColor*)accentColorForTile:(RSTileInfo*)tileInfo;
 + (UIColor*)accentColorForLaunchScreen:(RSTileInfo*)tileInfo;
 + (NSString*)localizedStringForKey:(NSString*)key;
++ (UIColor*)colorFromHexString:(NSString*)arg1;
++ (CGFloat)tileOpacity;
 
 @end

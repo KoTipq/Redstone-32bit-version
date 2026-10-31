@@ -151,7 +151,7 @@
 		
 		UILabel* unpinLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
 		[unpinLabel setFont:RSFont(@"SegoeMDL2Assets", 14)];
-		[unpinLabel setText:@"\uE77A"];
+		[unpinLabel setText:RSGlyph(@"\uE77A", @"✕")];
 		[unpinLabel setTextAlignment:NSTextAlignmentCenter];
 		[unpinButton addSubview:unpinLabel];
 		
@@ -163,17 +163,36 @@
 		[scaleButton setBackgroundColor:[UIColor whiteColor]];
 		[scaleButton.layer setCornerRadius:15];
 		[scaleButton setHidden:YES];
+		[customizeButton setHidden:YES];
 		[scaleButton setTransform:CGAffineTransformMakeRotation(deg2rad([self scaleButtonRotationForCurrentSize]))];
 		[self addSubview:scaleButton];
 		
 		UILabel* scaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-		[scaleLabel setText:@"\uE7EA"];
+		[scaleLabel setText:RSGlyph(@"\uE7EA", @"↘")];
 		[scaleLabel setFont:RSFont(@"SegoeMDL2Assets", 14)];
 		[scaleLabel setTextAlignment:NSTextAlignmentCenter];
 		[scaleButton addSubview:scaleLabel];
 		
 		scaleGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNextSize)];
 		[scaleButton addGestureRecognizer:scaleGestureRecognizer];
+		
+		// Third button: customize this tile (color, opacity, background, icon)
+		customizeButton = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+		[customizeButton setCenter:CGPointMake(0, frame.size.height)];
+		[customizeButton setBackgroundColor:[UIColor whiteColor]];
+		[customizeButton.layer setCornerRadius:15];
+		[customizeButton setHidden:YES];
+		[self addSubview:customizeButton];
+		
+		UILabel* customizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+		[customizeLabel setText:RSGlyph(@"\uE70F", @"🎨")];
+		[customizeLabel setFont:RSFont(@"SegoeMDL2Assets", 14)];
+		[customizeLabel setTextColor:[UIColor blackColor]];
+		[customizeLabel setTextAlignment:NSTextAlignmentCenter];
+		[customizeButton addSubview:customizeLabel];
+		
+		customizeGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(customizeTapped)];
+		[customizeButton addGestureRecognizer:customizeGestureRecognizer];
 	}
 	
 	return self;
@@ -204,10 +223,12 @@
 			
 			[unpinButton setHidden:NO];
 			[scaleButton setHidden:NO];
+			[customizeButton setHidden:NO];
 		} else {
 			shouldAllowPan = NO;
 			[unpinButton setHidden:YES];
 			[scaleButton setHidden:YES];
+			[customizeButton setHidden:YES];
 			
 			[UIView animateWithDuration:.2 animations:^{
 				[self setEasingFunction:easeOutQuint forKeyPath:@"frame"];
@@ -237,6 +258,7 @@
 		
 		[unpinButton setHidden:YES];
 		[scaleButton setHidden:YES];
+		[customizeButton setHidden:YES];
 	}
 }
 
@@ -294,6 +316,158 @@ static UIImage* sharedTileWallpaper;
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	[self updateWallpaperCrop];
+}
+
+#pragma mark Customization
+
++ (NSString*)customFilesPathForIdentifier:(NSString*)identifier {
+	return [NSString stringWithFormat:@"%@/CustomTiles/%@", RESOURCE_PATH, identifier];
+}
+
++ (NSString*)customImagePathNamed:(NSString*)name forIdentifier:(NSString*)identifier {
+	for (NSString* extension in @[@"png", @"jpg", @"jpeg"]) {
+		NSString* path = [NSString stringWithFormat:@"%@/%@.%@", [self customFilesPathForIdentifier:identifier], name, extension];
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+			return path;
+		}
+	}
+	
+	return nil;
+}
+
++ (BOOL)customImageExistsNamed:(NSString*)name forIdentifier:(NSString*)identifier {
+	return [self customImagePathNamed:name forIdentifier:identifier] != nil;
+}
+
+// Loads a custom image and scales it down so big photos do not fill up SpringBoard's memory
++ (UIImage*)customImageNamed:(NSString*)name forIdentifier:(NSString*)identifier fitting:(CGSize)size fill:(BOOL)fill {
+	NSString* path = [self customImagePathNamed:name forIdentifier:identifier];
+	UIImage* image = path ? [UIImage imageWithContentsOfFile:path] : nil;
+	
+	if (!image || image.size.width <= 0 || image.size.height <= 0) {
+		return nil;
+	}
+	
+	CGFloat factor = fill ? MAX(size.width / image.size.width, size.height / image.size.height) : MIN(size.width / image.size.width, size.height / image.size.height);
+	if (factor >= 1.0) {
+		return image;
+	}
+	
+	CGSize scaledSize = CGSizeMake(MAX(floorf(image.size.width * factor), 1), MAX(floorf(image.size.height * factor), 1));
+	UIGraphicsBeginImageContextWithOptions(scaledSize, NO, 1.0);
+	[image drawInRect:CGRectMake(0, 0, scaledSize.width, scaledSize.height)];
+	UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return scaledImage ?: image;
+}
+
+- (NSString*)tileIdentifier {
+	return [[self.icon application] bundleIdentifier];
+}
+
+- (UIColor*)effectiveTileColor {
+	UIColor* color = [RSAesthetics accentColorForTile:self.tileInfo];
+	
+	if (self.customColor.length > 0) {
+		CGFloat opacity = self.customOpacity ? [self.customOpacity floatValue] : [RSAesthetics tileOpacity];
+		return [[RSAesthetics colorFromHexString:self.customColor] colorWithAlphaComponent:opacity];
+	} else if (self.customOpacity) {
+		return [color colorWithAlphaComponent:[self.customOpacity floatValue]];
+	}
+	
+	return color;
+}
+
+- (void)applyCustomizationColors {
+	[self setBackgroundColor:[self effectiveTileColor]];
+	[customBackgroundView setAlpha:self.customOpacity ? [self.customOpacity floatValue] : 1.0];
+}
+
+- (void)applyCustomization {
+	[self applyCustomizationColors];
+	
+	// Background image
+	[customBackgroundView removeFromSuperview];
+	customBackgroundView = nil;
+	
+	if (self.useCustomBackground) {
+		CGFloat scale = [[UIScreen mainScreen] scale];
+		UIImage* backgroundImage = [RSTile customImageNamed:@"background" forIdentifier:[self tileIdentifier] fitting:CGSizeMake(self.bounds.size.width * scale, self.bounds.size.height * scale) fill:YES];
+		
+		if (backgroundImage) {
+			customBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+			[customBackgroundView setImage:backgroundImage];
+			[customBackgroundView setContentMode:UIViewContentModeScaleAspectFill];
+			[customBackgroundView setClipsToBounds:YES];
+			[customBackgroundView setAlpha:self.customOpacity ? [self.customOpacity floatValue] : 1.0];
+			[tileContainer insertSubview:customBackgroundView atIndex:0];
+		}
+	}
+	
+	// Icon
+	UIImage* customIcon = nil;
+	if (self.useCustomIcon) {
+		CGFloat scale = [[UIScreen mainScreen] scale];
+		customIcon = [RSTile customImageNamed:@"icon" forIdentifier:[self tileIdentifier] fitting:CGSizeMake(256 * scale, 256 * scale) fill:NO];
+	}
+	
+	if (customIcon) {
+		[tileImageView setImage:[customIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+		[tileImageView setContentMode:UIViewContentModeScaleAspectFit];
+		customIconApplied = YES;
+	} else if (customIconApplied) {
+		// Back to the normal icon
+		if (self.tileInfo.fullSizeArtwork) {
+			[tileImageView setImage:[RSAesthetics getImageForTileWithBundleIdentifier:[self tileIdentifier] size:self.size colored:YES]];
+		} else {
+			[tileImageView setImage:[RSAesthetics getImageForTileWithBundleIdentifier:[self tileIdentifier] size:5 colored:self.tileInfo.hasColoredIcon]];
+		}
+		
+		[tileImageView setContentMode:UIViewContentModeScaleToFill];
+		customIconApplied = NO;
+	}
+}
+
+- (void)resetCustomization {
+	self.customColor = nil;
+	self.customOpacity = nil;
+	self.useCustomBackground = NO;
+	self.useCustomIcon = NO;
+	
+	[self applyCustomization];
+}
+
+- (void)loadCustomizationFromDictionary:(NSDictionary*)dictionary {
+	self.customColor = [dictionary objectForKey:@"customColor"];
+	self.customOpacity = [dictionary objectForKey:@"customOpacity"];
+	self.useCustomBackground = [[dictionary objectForKey:@"customBackground"] boolValue];
+	self.useCustomIcon = [[dictionary objectForKey:@"customIcon"] boolValue];
+	
+	if (self.customColor.length > 0 || self.customOpacity || self.useCustomBackground || self.useCustomIcon) {
+		[self applyCustomization];
+	}
+}
+
+- (void)writeCustomizationToDictionary:(NSMutableDictionary*)dictionary {
+	if (self.customColor.length > 0) {
+		[dictionary setObject:self.customColor forKey:@"customColor"];
+	}
+	if (self.customOpacity) {
+		[dictionary setObject:self.customOpacity forKey:@"customOpacity"];
+	}
+	if (self.useCustomBackground) {
+		[dictionary setObject:@YES forKey:@"customBackground"];
+	}
+	if (self.useCustomIcon) {
+		[dictionary setObject:@YES forKey:@"customIcon"];
+	}
+}
+
+- (void)customizeTapped {
+	RSTileEditor* editor = [[RSTileEditor alloc] initWithTile:self];
+	[editor show];
 }
 
 - (BOOL)shouldHideTileLabel {
@@ -399,9 +573,11 @@ static UIImage* sharedTileWallpaper;
 	}
 	
 	[tileImageView setHidden:!RSPrefBool(@"showTileIcons")];
+	[self applyCustomization];
 	
 	[unpinButton setCenter:CGPointMake(self.frame.size.width, 0)];
 	[scaleButton setCenter:CGPointMake(self.frame.size.width, self.frame.size.height)];
+	[customizeButton setCenter:CGPointMake(0, self.frame.size.height)];
 	
 	[scaleButton setTransform:CGAffineTransformMakeRotation(deg2rad([self scaleButtonRotationForCurrentSize]))];
 	[self setTransform:CGAffineTransformMakeScale(1.05, 1.05)];
@@ -720,6 +896,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 			[tapGestureRecognizer setEnabled:NO];
 			[panGestureRecognizer setEnabled:NO];
 			return scaleButton;
+		} else if (CGRectContainsPoint(customizeButton.frame, point)) {
+			
+			[tapGestureRecognizer setEnabled:NO];
+			[panGestureRecognizer setEnabled:NO];
+			return customizeButton;
 		}
 	}
 	

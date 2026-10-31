@@ -17,6 +17,7 @@
 #import "Start/RSStartScreenController.h"
 #import "Start/RSStartScrollView.h"
 #import "Start/RSTile.h"
+#import "Start/RSTileEditor.h"
 #import "Start/RSTileInfo.h"
 #import "Start/RSTileNotificationView.h"
 #import "Start/RSLiveTileDelegate.h"
@@ -54,6 +55,11 @@
 static inline UIFont* RSFont(NSString* name, CGFloat size) {
 	UIFont* font = [UIFont fontWithName:name size:size];
 	return font ?: [UIFont systemFontOfSize:size];
+}
+
+// Segoe MDL2 icon glyphs: if the font is not installed, use a plain symbol / emoji instead of an empty box.
+static inline NSString* RSGlyph(NSString* mdl2Glyph, NSString* fallback) {
+	return [UIFont fontWithName:@"SegoeMDL2Assets" size:12] ? mdl2Glyph : fallback;
 }
 
 // Preference helpers (values live in ml.festival.redstone.plist)

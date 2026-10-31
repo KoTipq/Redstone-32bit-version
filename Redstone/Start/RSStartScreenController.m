@@ -60,6 +60,7 @@ static RSStartScreenController* sharedInstance;
 			RSTile* tile = [[RSTile alloc] initWithFrame:tileFrame leafIdentifier:tileLayout[i][@"bundleIdentifier"] size:[tileLayout[i][@"size"] intValue]];
 			[tile setTileX:[tileLayout[i][@"column"] intValue]];
 			[tile setTileY:[tileLayout[i][@"row"] intValue]];
+			[tile loadCustomizationFromDictionary:tileLayout[i]];
 			
 			[self.startScrollView addSubview:tile];
 			[pinnedTiles addObject:tile];
@@ -80,6 +81,7 @@ static RSStartScreenController* sharedInstance;
 		[tileInfo setValue:[NSNumber numberWithInteger:tile.tileY] forKey:@"row"];
 		[tileInfo setValue:[NSNumber numberWithInteger:tile.tileX] forKey:@"column"];
 		[tileInfo setValue:[[tile.icon application] bundleIdentifier] forKey:@"bundleIdentifier"];
+		[tile writeCustomizationToDictionary:tileInfo];
 		
 		[tilesToSave addObject:tileInfo];
 	}
@@ -390,6 +392,11 @@ static RSStartScreenController* sharedInstance;
 	[[[RSCore sharedInstance] rootScrollView] setUserInteractionEnabled:NO];
 	[[RSLaunchScreenController sharedInstance] setLaunchScreenForLeafIdentifier:[[sender.icon application] bundleIdentifier] tileInfo:sender.tileInfo];
 	
+	if (sender.customColor.length > 0) {
+		// use the tile's own color for the launch screen as well
+		[[[RSLaunchScreenController sharedInstance] launchScreen] setBackgroundColor:[RSAesthetics colorFromHexString:sender.customColor]];
+	}
+	
 	NSMutableArray* appsInView = [NSMutableArray new];
 	NSMutableArray* appsNotInView = [NSMutableArray new];
 	
@@ -457,7 +464,16 @@ static RSStartScreenController* sharedInstance;
 		[tile.layer addAnimation:opacity forKey:@"opacity"];
 	}
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay + 0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	// The old code added maxDelay in nanoseconds (operator precedence), so the tiles were cut off before their
+	// zoom finished, which looked jerky. The last tile starts after maxDelay (+0.1s for the tapped tile) and zooms for 0.225s.
+	NSTimeInterval zoomEnd = maxDelay + 0.1 + 0.225;
+	
+	// Start fading in the launch screen shortly before the zoom ends so there is no empty frame in between
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(MAX(zoomEnd - 0.12, 0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[[RSLaunchScreenController sharedInstance] show];
+	});
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((zoomEnd + 0.03) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		for (RSTile* tile in pinnedTiles) {
 			[tile.layer setOpacity:0];
 			[tile.layer removeAllAnimations];
@@ -466,8 +482,6 @@ static RSStartScreenController* sharedInstance;
 			
 			[tile stopLiveTile];
 		}
-		
-		[[RSLaunchScreenController sharedInstance] show];
 		
 		SBLeafIcon* icon = [[[objc_getClass("SBIconController") sharedInstance] model] leafIconForIdentifier:sender.iconIdentifier];
 		[[objc_getClass("SBIconController") sharedInstance] _launchIcon:icon];
@@ -550,7 +564,7 @@ static RSStartScreenController* sharedInstance;
 		[tile.layer addAnimation:opacity forKey:@"opacity"];
 	}
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay + 0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((maxDelay + 0.4 + 0.03) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		for (RSTile* tile in pinnedTiles) {
 			[tile.layer removeAllAnimations];
 			[tile.layer setOpacity:1];

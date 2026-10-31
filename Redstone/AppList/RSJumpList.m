@@ -42,7 +42,7 @@
 				}
 				
 				if ([letter isEqualToString:@"@"]) {
-					letter = @"\uE12B";
+					letter = RSGlyph(@"\uE12B", @"🌐");
 					[jumpListLetterLabel setFont:RSFont(@"SegoeMDL2Assets", 30)];
 				}
 				[jumpListLetterLabel setText:letter];

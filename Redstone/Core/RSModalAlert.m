@@ -64,16 +64,30 @@
 	[buttonLabel setTextAlignment:NSTextAlignmentCenter];
 	[button addSubview:buttonLabel];
 	
-	if (callback != nil) {
-		UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:[callback copy] action:@selector(invoke)];
-		[button addGestureRecognizer:tap];
-	}
+	// Keep the handler ourselves: gesture recognizers do not retain their target, so using the block as target
+	// let it be released right away and the buttons did nothing.
+	void (^handler)(void) = callback ?: ^{};
+	[button setTag:[actionHandlers count]];
+	[actionHandlers addObject:[handler copy]];
+	
+	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionButtonTapped:)];
+	[tap setCancelsTouchesInView:NO];
+	[button addGestureRecognizer:tap];
 	
 	[alertView addSubview:button];
 	[actionButtons addObject:button];
 	
 	CGFloat alertHeight = button.frame.origin.y + button.frame.size.height + 38;
 	[alertView setFrame:CGRectMake(0, screenHeight/2 - alertHeight/2, screenWidth, alertHeight)];
+}
+
+- (void)actionButtonTapped:(UITapGestureRecognizer*)gestureRecognizer {
+	NSInteger index = gestureRecognizer.view.tag;
+	
+	if (index >= 0 && index < [actionHandlers count]) {
+		void (^handler)(void) = [actionHandlers objectAtIndex:index];
+		handler();
+	}
 }
 
 - (void)show {
@@ -130,6 +144,7 @@
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[self setHidden:YES];
 		[self removeFromSuperview];
+		[actionHandlers removeAllObjects]; // break the retain cycle between the alert and its handlers
 	});
 }
 

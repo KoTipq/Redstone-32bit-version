@@ -53,7 +53,7 @@
 		
 		UILabel* grabberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 20)];
 		[grabberLabel setFont:RSFont(@"SegoeMDL2Assets", 18)];
-		[grabberLabel setText:@"\uE76F"];
+		[grabberLabel setText:RSGlyph(@"\uE76F", @"▼")];
 		[grabberLabel setTextAlignment:NSTextAlignmentCenter];
 		[grabberLabel setTextColor:[UIColor whiteColor]];
 		[grabberView addSubview:grabberLabel];

@@ -21,7 +21,7 @@
 		[prevTitleButton setHighlightEnabled:YES];
 		[prevTitleButton setTintColor:[UIColor whiteColor]];
 		[prevTitleButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
-		[prevTitleButton setTitle:@"\uE892"];
+		[prevTitleButton setTitle:RSGlyph(@"\uE892", @"⏮")];
 		[prevTitleButton addTarget:self action:@selector(previousTrack)];
 		[self addSubview:prevTitleButton];
 		
@@ -29,7 +29,7 @@
 		[playPauseButton setHighlightEnabled:YES];
 		[playPauseButton setTintColor:[UIColor whiteColor]];
 		[playPauseButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
-		[playPauseButton setTitle:@"\uE768"];
+		[playPauseButton setTitle:RSGlyph(@"\uE768", @"▶")];
 		[playPauseButton addTarget:self action:@selector(togglePlayPause)];
 		[self addSubview:playPauseButton];
 		
@@ -37,7 +37,7 @@
 		[nextTitleButton setHighlightEnabled:YES];
 		[nextTitleButton setTintColor:[UIColor whiteColor]];
 		[nextTitleButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
-		[nextTitleButton setTitle:@"\uE893"];
+		[nextTitleButton setTitle:RSGlyph(@"\uE893", @"⏭")];
 		[nextTitleButton addTarget:self action:@selector(nextTrack)];
 		[self addSubview:nextTitleButton];
 		
@@ -76,9 +76,9 @@
 	
 	[UIView performWithoutAnimation:^{
 		if (isPlaying) {
-			[playPauseButton setTitle:@"\uE769"];
+			[playPauseButton setTitle:RSGlyph(@"\uE769", @"⏸")];
 		} else {
-			[playPauseButton setTitle:@"\uE768"];
+			[playPauseButton setTitle:RSGlyph(@"\uE768", @"▶")];
 		}
 		
 		[playPauseButton layoutIfNeeded];

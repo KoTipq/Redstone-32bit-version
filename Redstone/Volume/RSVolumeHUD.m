@@ -49,22 +49,22 @@
 		headphoneMuteButton = [[RSTiltView alloc] initWithFrame:CGRectMake(10, 37, 36, 36)];
 		[headphoneMuteButton setTintColor:[UIColor whiteColor]];
 		[headphoneMuteButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 24)];
-		[headphoneMuteButton setTitle:@"\uE7F6"];
+		[headphoneMuteButton setTitle:RSGlyph(@"\uE7F6", @"🎧")];
 		[headphoneMuteButton addTarget:self action:@selector(toggleMediaMuted)];
 		[headphoneVolumeView addSubview:headphoneMuteButton];
 		
 		if ([ringerSlider currentValue] >= 1.0/16.0) {
 			[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:NO];
-			[ringerMuteButton setTitle:@"\uEA8F"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uEA8F", @"🔔")];
 		} else {
 			[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:YES];
-			[ringerMuteButton setTitle:@"\uE877"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uE877", @"📳")];
 		}
 		
 		if ([mediaSlider currentValue] >= 1.0/16.0) {
-			[mediaMuteButton setTitle:@"\uE767"];
+			[mediaMuteButton setTitle:RSGlyph(@"\uE767", @"🔊")];
 		} else {
-			[mediaMuteButton setTitle:@"\uE74F"];
+			[mediaMuteButton setTitle:RSGlyph(@"\uE74F", @"🔇")];
 		}
 		
 		[ringerVolumeView setVolumeValue:[[RSSoundController sharedInstance] ringerVolume]];
@@ -75,7 +75,7 @@
 		[expandButton setTiltEnabled:NO];
 		[expandButton setTintColor:[UIColor whiteColor]];
 		[expandButton.titleLabel setFont:RSFont(@"SegoeMDL2Assets", 18)];
-		[expandButton setTitle:@"\uE70D"];
+		[expandButton setTitle:RSGlyph(@"\uE70D", @"▼")];
 		[expandButton addTarget:self action:@selector(toggleExpanded)];
 		[self addSubview:expandButton];
 		
@@ -364,21 +364,21 @@
 	
 	if (ringerVolume >= 1.0/16.0) {
 		[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:NO];
-		[ringerMuteButton setTitle:@"\uEA8F"];
+		[ringerMuteButton setTitle:RSGlyph(@"\uEA8F", @"🔔")];
 	} else {
 		[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:YES];
 		
 		if ([self getVibrationEnabled]) {
-			[ringerMuteButton setTitle:@"\uE877"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uE877", @"📳")];
 		} else {
-			[ringerMuteButton setTitle:@"\uE7ED"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uE7ED", @"🔕")];
 		}
 	}
 	
 	if (mediaVolume >= 1.0/16.0) {
-		[mediaMuteButton setTitle:@"\uE767"];
+		[mediaMuteButton setTitle:RSGlyph(@"\uE767", @"🔊")];
 	} else {
-		[mediaMuteButton setTitle:@"\uE74F"];
+		[mediaMuteButton setTitle:RSGlyph(@"\uE74F", @"🔇")];
 	}
 	
 	[ringerVolumeView updateVolumeDisplay];
@@ -395,16 +395,16 @@
 	if (ringerVolume >= 1.0/16.0) {
 		[[objc_getClass("AVSystemController") sharedAVSystemController] setVolumeTo:ringerVolume forCategory:@"Ringtone"];
 		[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:NO];
-		[ringerMuteButton setTitle:@"\uEA8F"];
+		[ringerMuteButton setTitle:RSGlyph(@"\uEA8F", @"🔔")];
 	} else {
 		[[objc_getClass("SBMediaController") sharedInstance] setRingerMuted:YES];
 		[[RSSoundController sharedInstance] volumeChanged:0.0 forCategory:@"Ringtone" increasingVolume:NO];
 		[[objc_getClass("AVSystemController") sharedAVSystemController] setVolumeTo:0.0 forCategory:@"Ringtone"];
 		
 		if ([self getVibrationEnabled]) {
-			[ringerMuteButton setTitle:@"\uE877"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uE877", @"📳")];
 		} else {
-			[ringerMuteButton setTitle:@"\uE7ED"];
+			[ringerMuteButton setTitle:RSGlyph(@"\uE7ED", @"🔕")];
 		}
 	}
 	
@@ -423,9 +423,9 @@
 	[[objc_getClass("AVSystemController") sharedAVSystemController] setVolumeTo:mediaVolume forCategory:@"Audio/Video"];
 	
 	if (mediaVolume >= 1.0/16.0) {
-		[mediaMuteButton setTitle:@"\uE767"];
+		[mediaMuteButton setTitle:RSGlyph(@"\uE767", @"🔊")];
 	} else {
-		[mediaMuteButton setTitle:@"\uE74F"];
+		[mediaMuteButton setTitle:RSGlyph(@"\uE74F", @"🔇")];
 	}
 	
 	[[RSSoundController sharedInstance] setMediaVolume:mediaVolume];
@@ -515,28 +515,28 @@
 	
 	[UIView performWithoutAnimation:^{
 		if ([self getVibrationEnabled]) {
-			NSString* baseString = [NSString stringWithFormat:@"\uE877 %@", [RSAesthetics localizedStringForKey:@"VIBRATE_ENABLED"]];
+			NSString* baseString = [NSString stringWithFormat:@"%@ %@", RSGlyph(@"\uE877", @"📳"), [RSAesthetics localizedStringForKey:@"VIBRATE_ENABLED"]];
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor],
 											  NSBaselineOffsetAttributeName: @-3.0
-											  } range:[baseString rangeOfString:@"\uE877"]];
+											  } range:[baseString rangeOfString:RSGlyph(@"\uE877", @"📳")]];
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"VIBRATE_ENABLED"]]];
 			[vibrateButton setAttributedTitle:attributedString forState:UIControlStateNormal];
 		} else {
-			NSString* baseString = [NSString stringWithFormat:@"\uE877 %@", [RSAesthetics localizedStringForKey:@"VIBRATE_DISABLED"]];
+			NSString* baseString = [NSString stringWithFormat:@"%@ %@", RSGlyph(@"\uE877", @"📳"), [RSAesthetics localizedStringForKey:@"VIBRATE_DISABLED"]];
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor],
 											  NSBaselineOffsetAttributeName: @-3.0
-											  } range:[baseString rangeOfString:@"\uE877"]];
+											  } range:[baseString rangeOfString:RSGlyph(@"\uE877", @"📳")]];
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor]
@@ -559,11 +559,11 @@
 	}
 	
 	if ([[RSSoundController sharedInstance] ringerVolume] >= 1.0/16.0) {
-		[ringerMuteButton setTitle:@"\uEA8F"];
+		[ringerMuteButton setTitle:RSGlyph(@"\uEA8F", @"🔔")];
 	} else if ([self getVibrationEnabled]) {
-		[ringerMuteButton setTitle:@"\uE877"];
+		[ringerMuteButton setTitle:RSGlyph(@"\uE877", @"📳")];
 	} else {
-		[ringerMuteButton setTitle:@"\uE7ED"];
+		[ringerMuteButton setTitle:RSGlyph(@"\uE7ED", @"🔕")];
 	}
 }
 
@@ -574,28 +574,28 @@
 	
 	[UIView performWithoutAnimation:^{
 		if (![mediaController isRingerMuted]) {
-			NSString* baseString = [NSString stringWithFormat:@"\uEA8F %@", [RSAesthetics localizedStringForKey:@"RINGER_ENABLED"]];
+			NSString* baseString = [NSString stringWithFormat:@"%@ %@", RSGlyph(@"\uEA8F", @"🔔"), [RSAesthetics localizedStringForKey:@"RINGER_ENABLED"]];
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor],
 											  NSBaselineOffsetAttributeName: @-3.0
-											  } range:[baseString rangeOfString:@"\uEA8F"]];
+											  } range:[baseString rangeOfString:RSGlyph(@"\uEA8F", @"🔔")]];
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [RSAesthetics accentColor]
 											  } range:[baseString rangeOfString:[RSAesthetics localizedStringForKey:@"RINGER_ENABLED"]]];
 			[ringerButton setAttributedTitle:attributedString forState:UIControlStateNormal];
 		} else {
-			NSString* baseString = [NSString stringWithFormat:@"\uE7ED %@", [RSAesthetics localizedStringForKey:@"RINGER_DISABLED"]];
+			NSString* baseString = [NSString stringWithFormat:@"%@ %@", RSGlyph(@"\uE7ED", @"🔕"), [RSAesthetics localizedStringForKey:@"RINGER_DISABLED"]];
 			NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:baseString];
 			
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeMDL2Assets", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor],
 											  NSBaselineOffsetAttributeName: @-3.0
-											  } range:[baseString rangeOfString:@"\uE7ED"]];
+											  } range:[baseString rangeOfString:RSGlyph(@"\uE7ED", @"🔕")]];
 			[attributedString addAttributes:@{
 											  NSFontAttributeName:RSFont(@"SegoeUI", 14),
 											  NSForegroundColorAttributeName: [UIColor whiteColor]

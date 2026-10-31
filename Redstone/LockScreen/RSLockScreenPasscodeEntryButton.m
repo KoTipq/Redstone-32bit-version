@@ -52,7 +52,7 @@
 	
 	if (isBackSpaceButton) {
 		[buttonLabel setFont:RSFont(@"SegoeMDL2Assets", 34)];
-		[buttonLabel setText:@"\uE94F"];
+		[buttonLabel setText:RSGlyph(@"\uE94F", @"⌫")];
 	}
 }
 

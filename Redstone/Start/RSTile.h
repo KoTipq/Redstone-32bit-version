@@ -17,6 +17,9 @@
 	
 	UIView* unpinButton;
 	UIView* scaleButton;
+	UIView* customizeButton;
+	UIImageView* customBackgroundView;
+	BOOL customIconApplied;
 	
 	UITapGestureRecognizer* tapGestureRecognizer;
 	UILongPressGestureRecognizer* longPressGestureRecognizer;
@@ -24,6 +27,7 @@
 	
 	UITapGestureRecognizer* unpinGestureRecognizer;
 	UITapGestureRecognizer* scaleGestureRecognizer;
+	UITapGestureRecognizer* customizeGestureRecognizer;
 	
 	BOOL shouldAllowPan;
 	
@@ -49,10 +53,24 @@
 @property (nonatomic, assign) int tileY;
 @property (nonatomic, assign, readonly) CGRect basePosition;
 
+// Per-tile customization
+@property (nonatomic, strong) NSString* customColor;
+@property (nonatomic, strong) NSNumber* customOpacity;
+@property (nonatomic, assign) BOOL useCustomBackground;
+@property (nonatomic, assign) BOOL useCustomIcon;
+
 - (id)initWithFrame:(CGRect)frame leafIdentifier:(NSString*)leafId size:(int)tileSize;
 - (CGRect)basePosition;
 - (CGPoint)originalCenter;
 - (void)setBadge:(int)badgeCount;
+
+- (void)applyCustomization;
+- (void)applyCustomizationColors;
+- (void)resetCustomization;
+- (void)loadCustomizationFromDictionary:(NSDictionary*)dictionary;
+- (void)writeCustomizationToDictionary:(NSMutableDictionary*)dictionary;
++ (NSString*)customFilesPathForIdentifier:(NSString*)identifier;
++ (BOOL)customImageExistsNamed:(NSString*)name forIdentifier:(NSString*)identifier;
 
 + (BOOL)wallpaperInTilesEnabled;
 + (UIImage*)sharedTileWallpaper;

@@ -15,7 +15,7 @@
 		self.allAppsButton = [[RSTiltView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 60)];
 		[self.allAppsButton setHighlightEnabled:YES];
 		
-		NSString* labelText = [NSString stringWithFormat:@"%@\t\uE0AD", [RSAesthetics localizedStringForKey:@"ALL_APPS"]];
+		NSString* labelText = [NSString stringWithFormat:@"%@\t%@", [RSAesthetics localizedStringForKey:@"ALL_APPS"], RSGlyph(@"\uE0AD", @"→")];
 		NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:labelText];
 		
 		[string addAttributes:@{
@@ -26,7 +26,7 @@
 								NSForegroundColorAttributeName: [UIColor whiteColor],
 								NSFontAttributeName: RSFont(@"SegoeMDL2Assets", 18),
 								NSBaselineOffsetAttributeName: @-3.0
-								}range:[labelText rangeOfString:@"\uE0AD"]];
+								}range:[labelText rangeOfString:RSGlyph(@"\uE0AD", @"→")]];
 		[self.allAppsButton.titleLabel setAttributedText:string];
 		[self.allAppsButton.titleLabel setTextAlignment:NSTextAlignmentRight];
 		[self.allAppsButton addTarget:[^{

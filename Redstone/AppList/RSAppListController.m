@@ -345,13 +345,17 @@ static RSAppListController* sharedInstance;
 		[view.layer addAnimation:opacity forKey:@"opacity"];
 	}
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay + 0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	// maxDelay used to be added in nanoseconds (operator precedence), cutting the zoom animation short
+	NSTimeInterval zoomEnd = maxDelay + 0.1 + 0.225;
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(MAX(zoomEnd - 0.12, 0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[[RSLaunchScreenController sharedInstance] show];
+	});
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((zoomEnd + 0.03) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		for (UIView* view in self.appList.subviews) {
 			[view.layer setOpacity:0];
 		}
-		
-		
-		[[RSLaunchScreenController sharedInstance] show];
 		
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			for (UIView* view in self.appList.subviews) {
@@ -440,7 +444,7 @@ static RSAppListController* sharedInstance;
 		[view.layer addAnimation:opacity forKey:@"opacity"];
 	}
 	
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay + 0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((maxDelay + 0.4 + 0.03) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		for (UIView* subview in self.appList.subviews) {
 			[subview.layer removeAllAnimations];
 			[subview.layer setOpacity:1];
