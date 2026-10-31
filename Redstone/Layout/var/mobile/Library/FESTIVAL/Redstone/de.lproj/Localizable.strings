@@ -24,3 +24,14 @@
 "VIBRATE_DISABLED" = "Vibrieren aus";
 "RINGER_ENABLED" = "Klingeln ein";
 "RINGER_DISABLED" = "Klingeln aus";
+
+/* Tile editor */
+"TILE_EDITOR_TITLE" = "Kachel-Einstellungen";
+"TILE_EDITOR_COLOR" = "Farbe";
+"TILE_EDITOR_OPACITY" = "Deckkraft";
+"TILE_EDITOR_BACKGROUND" = "Eigenes Hintergrundbild";
+"TILE_EDITOR_ICON" = "Eigenes Symbol";
+"TILE_EDITOR_HINT" = "Lege background.png und icon.png (PNG oder JPG) hier ab:\n%@";
+"TILE_EDITOR_FILE_MISSING" = "Datei in diesem Ordner nicht gefunden.";
+"TILE_EDITOR_RESET" = "Zurücksetzen";
+"TILE_EDITOR_DONE" = "Fertig";

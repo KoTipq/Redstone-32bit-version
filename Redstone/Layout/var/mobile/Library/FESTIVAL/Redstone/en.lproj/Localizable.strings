@@ -24,3 +24,14 @@
 "VIBRATE_DISABLED" = "Vibrate off";
 "RINGER_ENABLED" = "Ringer on";
 "RINGER_DISABLED" = "Ringer off";
+
+/* Tile editor */
+"TILE_EDITOR_TITLE" = "Tile Settings";
+"TILE_EDITOR_COLOR" = "Color";
+"TILE_EDITOR_OPACITY" = "Opacity";
+"TILE_EDITOR_BACKGROUND" = "Custom background image";
+"TILE_EDITOR_ICON" = "Custom icon";
+"TILE_EDITOR_HINT" = "Put background.png and icon.png (PNG or JPG) into:\n%@";
+"TILE_EDITOR_FILE_MISSING" = "File not found in that folder.";
+"TILE_EDITOR_RESET" = "Reset";
+"TILE_EDITOR_DONE" = "Done";

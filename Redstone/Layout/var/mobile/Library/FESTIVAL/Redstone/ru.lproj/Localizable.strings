@@ -24,3 +24,14 @@
 "VIBRATE_DISABLED" = "Вибрация выкл.";
 "RINGER_ENABLED" = "Звонок вкл.";
 "RINGER_DISABLED" = "Звонок выкл.";
+
+/* Tile editor */
+"TILE_EDITOR_TITLE" = "Настройки плитки";
+"TILE_EDITOR_COLOR" = "Цвет";
+"TILE_EDITOR_OPACITY" = "Прозрачность";
+"TILE_EDITOR_BACKGROUND" = "Свой фон (картинка)";
+"TILE_EDITOR_ICON" = "Своя иконка";
+"TILE_EDITOR_HINT" = "Положи background.png и icon.png (PNG или JPG) в папку:\n%@";
+"TILE_EDITOR_FILE_MISSING" = "Файл в этой папке не найден.";
+"TILE_EDITOR_RESET" = "Сбросить";
+"TILE_EDITOR_DONE" = "Готово";
