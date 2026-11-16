@@ -8,7 +8,7 @@
 
 A 32-bit port and modification of **Redstone** for iOS 10, bringing the Windows 10 Mobile experience to 32-bit iOS devices.
 
-This repository is an unofficial port and feature expansion based on the original [Redstone](https://github.com) project by **SniperGER**. All credit for the original tweak goes to SniperGER; this fork adds 32-bit support, Russian localization, and as much customization as possible. Developed with the help of Claude AI.
+This repository is an unofficial port and feature expansion based on the original [Redstone](https://github.com) project by **SniperGER**. All credit for the original tweak goes to SniperGER; this fork adds 32-bit support, Russian localization, and lots of customization. Developed with the help of Claude AI.
 
 ### Dependencies
 * `mobilesubstrate`
@@ -17,10 +17,7 @@ This repository is an unofficial port and feature expansion based on the origina
 ### What's New
 * **32-bit Support:** Full compatibility with 32-bit devices on iOS 10.
 * **Russian Localization:** The tweak has been translated into Russian.
-* **Pure Black Background:** Option to set a completely black background.
-* **Custom Tile Colors:** Ability to change the color of each tile individually.
-* **Extra Tile Sizes:** Added additional tile sizes for the Start screen.
-* **Maximum Customization:** Added a wide range of new settings and UI tweaks.
+* **Lots of Customization:** Added so many customization options that I'm too lazy to list them all — explore the settings yourself, there's a lot of cool stuff in there :)
 
 ### Original Windows Font (Segoe UI)
 > **Note:** The tweak works fine without these fonts. Adding them is optional and is only needed for aesthetics and extra reliability.
@@ -36,12 +33,12 @@ This repository is an unofficial port and feature expansion based on the origina
 
 ### Plans
 * [x] 32-bit port for iOS 10
-* [x] Russian localization, black background, individual tile colors, and extra tile sizes
+* [x] Russian localization and tons of customization
 * [ ] Port to iOS 11 / iOS 12 *(maybe in the future)*
 
 ### Bug Reports & Contacts
 If you encounter any bugs or issues, please report them in my Telegram channel:
-* **Telegram Channel:** [@KoTipq_Repo](https://t.me/KoTipq_Repo)
+* **Telegram Channel:** [@KoTipq_Repo](https://t.me)
 
 ### Credits
 * **[SniperGER](https://github.com)** — Original author of [Redstone](https://github.com).
@@ -55,7 +52,7 @@ Hope you enjoy it!
 
 Порт и модификация твика **Redstone** (интерфейс Windows 10 Mobile) под **iOS 10 32-bit**.
 
-Этот проект — неофициальный порт и доработка оригинального репозитория [Redstone](https://github.com). Авторство оригинального твика полностью принадлежит **SniperGER**, здесь же добавлена поддержка 32-битных устройств, русификация и максимально возможная кастомизация. Проект сделан с помощью ИИ Claude.
+Этот проект — неофициальный порт и доработка оригинального репозитория [Redstone](https://github.com). Авторство оригинального твика полностью принадлежит **SniperGER**, здесь же добавлена поддержка 32-битных устройств, русификация и куча кастомизации. Проект сделан с помощью ИИ Claude.
 
 ### Зависимости
 * `mobilesubstrate`
@@ -63,11 +60,8 @@ Hope you enjoy it!
 
 ### Что добавлено
 * **Поддержка 32-bit:** Работа на 32-битных устройствах под управлением iOS 10.
-* **Русификация:** Твик был полностью переведён на русский язык.
-* **Чёрный фон:** Возможность сделать фон полностью чёрным.
-* **Индивидуальные цвета плиток:** Настройка отдельного цвета для каждой плитки.
-* **Новые размеры плиток:** Дополнительные варианты размеров для рабочего стола.
-* **Максимум кастомизации:** Добавлено как можно больше новых настроек и доработок интерфейса.
+* **Русификация:** Твик был переведён на русский язык.
+* **Куча кастомизации:** Добавлено столько всего, что мне лень перечислять — поищите сами в настройках, там интересно :)
 
 ### Оригинальный шрифт Windows (Segoe UI)
 > **Примечание:** Твик может работать и без этих шрифтов. Их установка необязательна и нужна только для эстетики и большей надёжности.
@@ -83,12 +77,12 @@ Hope you enjoy it!
 
 ### Планы
 * [x] Порт на iOS 10 32-bit
-* [x] Русификация, чёрный фон, цвета для отдельных плиток и доп. размеры
+* [x] Русификация и много кастомизации
 * [ ] Порт на iOS 11 или iOS 12 *(в планах, но не точно)*
 
 ### Баг-репорты и контакты
 В случае обнаружения багов или проблем пишите в мой Telegram-канал:
-* **Telegram-канал:** [@KoTipq_Repo](https://t.me/KoTipq_Repo)
+* **Telegram-канал:** [@KoTipq_Repo](https://t.me)
 
 ### Credits
 * **[SniperGER](https://github.com)** — автор оригинального [Redstone](https://github.com).
