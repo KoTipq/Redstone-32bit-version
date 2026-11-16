@@ -186,7 +186,6 @@ void playZoomDownAppAnimation(BOOL applicationSnapshot) {
 	NSDictionary* settings = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	
 	if ([[settings objectForKey:@"enabled"] boolValue] && [[settings objectForKey:@"startScreenEnabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing Start Screen");
 		%init(startscreen);
 	}
 }

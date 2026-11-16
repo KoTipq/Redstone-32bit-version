@@ -14,11 +14,7 @@
 #endif
 
 // Activate Xcode only logging
-#ifdef DEBUG
-#define UIFontWDCustomLoaderDLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
 #define UIFontWDCustomLoaderDLog(...)
-#endif
 
 @implementation UIFont (Custom)
 static CGFloat const kSizePlaceholder = 1.0f;

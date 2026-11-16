@@ -19,7 +19,6 @@ static RSNotificationController* sharedInstance;
 }
 
 - (void)addBulletin:(BBBulletin *)bulletin {
-	NSLog(@"[Redstone | RSNotificationController] bulletin added");
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if ([RSSoundController sharedInstance] && [[RSSoundController sharedInstance] isShowingVolumeHUD]) {

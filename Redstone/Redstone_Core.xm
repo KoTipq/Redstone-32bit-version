@@ -71,7 +71,6 @@ static void lockedDevice(CFNotificationCenterRef center, void *observer, CFStrin
 	id preferences = [[RSPreferences alloc] init];
 	
 	if ([[[RSPreferences preferences] objectForKey:@"enabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing");
 		%init(core);
 		
 		// Device has been locked

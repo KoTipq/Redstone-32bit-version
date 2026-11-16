@@ -70,7 +70,6 @@
 	NSDictionary* settings = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	
 	if ([[settings objectForKey:@"enabled"] boolValue] && [[settings objectForKey:@"notificationsEnabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing Notifications");
 		
 		%init(notifications);
 	}

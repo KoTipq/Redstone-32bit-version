@@ -1,8 +1,8 @@
 # MAKEFILE 2
 
-# Configure your device details here
-export THEOS_DEVICE_IP=192.168.178.38
-export THEOS_DEVICE_PORT=22
+# Optional: set your own device address for `make install` locally.
+# export THEOS_DEVICE_IP=YOUR_DEVICE_IP
+# export THEOS_DEVICE_PORT=22
 
 # Set the package version
 export PACKAGE_VERSION = $(shell date +%y)w$(shell date +%V)a

@@ -1,27 +1,5 @@
 #import "../Redstone.h"
 
-// Writes startup errors to /var/mobile/Library/Logs/Redstone.log so a crash can be diagnosed
-static void RSLogException(NSException* exception) {
-	@try {
-		NSString* text = [NSString stringWithFormat:@"[%@] Redstone startup failed\nName: %@\nReason: %@\nReturn addresses: %@\nStack: %@\n\n",
-						  [NSDate date],
-						  [exception name],
-						  [exception reason],
-						  [exception callStackReturnAddresses],
-						  [exception callStackSymbols]];
-		NSString* path = @"/var/mobile/Library/Logs/Redstone.log";
-		NSFileHandle* handle = [NSFileHandle fileHandleForWritingAtPath:path];
-		if (!handle) {
-			[[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil];
-			handle = [NSFileHandle fileHandleForWritingAtPath:path];
-		}
-		[handle seekToEndOfFile];
-		[handle writeData:[text dataUsingEncoding:NSUTF8StringEncoding]];
-		[handle closeFile];
-		NSLog(@"[Redstone] %@", text);
-	} @catch (NSException* ignored) {}
-}
-
 @implementation RSCore
 
 static RSCore* sharedInstance;
@@ -119,9 +97,8 @@ static id currentApplication;
 		}
 		
 		} @catch (NSException* exception) {
-			// Something failed while building the interface: log it, undo what was added
-			// and leave the normal home screen alone instead of crashing SpringBoard.
-			RSLogException(exception);
+			// Keep the normal SpringBoard available without writing diagnostic logs.
+			(void)exception;
 			
 			for (UIView* view in [[self.window subviews] copy]) {
 				if (![viewsBefore containsObject:view]) {

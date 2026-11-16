@@ -76,7 +76,6 @@ void headphoneConnectionChanged(CFNotificationCenterRef center,void *observer,CF
 	NSDictionary* settings = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	
 	if ([[settings objectForKey:@"enabled"] boolValue] && [[settings objectForKey:@"volumeControlEnabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing VolumeControl");
 		%init(volumecontrol);
 		
 	CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(),NULL,&headphoneConnectionChanged,CFSTR("AVSystemController_HeadphoneJackIsConnectedDidChangeNotification"),NULL,CFNotificationSuspensionBehaviorDeliverImmediately);

@@ -248,7 +248,6 @@ SBPagedScrollView* dashboardScrollView;
 	NSDictionary* settings = [NSDictionary dictionaryWithContentsOfFile:PREFERENCES_PATH];
 	
 	if ([[settings objectForKey:@"enabled"] boolValue] && [[settings objectForKey:@"lockScreenEnabled"] boolValue]) {
-		NSLog(@"[Redstone] Initializing Lock Screen");
 		
 		if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_9_x_Max) {
 			%init(ios10)
