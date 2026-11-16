@@ -33,11 +33,11 @@ This repository is an unofficial port and feature expansion based on the origina
 
 ### Plans
 * [x] 32-bit port for iOS 10
-* [x] Russian localization and tons of customization
+* [ ] Adding even more customization
 * [ ] Port to iOS 11 / iOS 12 *(maybe in the future)*
 
-### Bug Reports & Contacts
-If you encounter any bugs or issues, please report them in my Telegram channel:
+### Bug Reports, Ideas & Contacts
+If you encounter any bugs or want to suggest your own ideas for the tweak, feel free to message me in my Telegram channel:
 * **Telegram Channel:** [@KoTipq_Repo](https://t.me)
 
 ### Credits
@@ -77,11 +77,11 @@ Hope you enjoy it!
 
 ### Планы
 * [x] Порт на iOS 10 32-bit
-* [x] Русификация и много кастомизации
+* [ ] Добавление ещё большей кастомизации
 * [ ] Порт на iOS 11 или iOS 12 *(в планах, но не точно)*
 
-### Баг-репорты и контакты
-В случае обнаружения багов или проблем пишите в мой Telegram-канал:
+### Баг-репорты, идеи и контакты
+В случае обнаружения багов, проблем или если хотите предложить свои идеи для твика — пишите в мой Telegram-канал:
 * **Telegram-канал:** [@KoTipq_Repo](https://t.me)
 
 ### Credits
